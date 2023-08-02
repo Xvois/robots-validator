@@ -1,0 +1,10 @@
+[
+  {
+    "displayName": "Google Bot",
+    "agentName": "Googlebot"
+  },
+  {
+    "displayName": "Bing Bot",
+    "agentName": "Bingbot"
+  }
+]

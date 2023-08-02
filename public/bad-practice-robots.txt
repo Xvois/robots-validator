@@ -1,0 +1,9 @@
+
+# WARNING | This is not good practice.
+Disallow: /api/
+
+# ERROR | This could be detrimental and action should be taken.
+Disallow: /oauth
+
+# WARNING | These errors are dynamic and linked to this txt file.
+Allow: /api/dynamic-og*

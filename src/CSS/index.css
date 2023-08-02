@@ -1,0 +1,25 @@
+
+body {
+    font-family: Inter, sans-serif;
+    margin: 15px;
+
+    --bg-colour: #090f1c;
+    --primary-colour: #ffffff;
+    --secondary-colour: #e5e5e5;
+    --accent-colour: #fca311;
+
+    background: var(--bg-colour);
+    color: var(--primary-colour);
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
