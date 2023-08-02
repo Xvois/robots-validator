@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
 import {Tooltip} from "@mui/material";
 import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -7,12 +6,10 @@ import {Comment, extractTypeAndMessage, getMissingLineComments, getRegexMatchCom
 
 export function RobotsDisplay(props: {
     robots: string
+    goodExample: string,
+    badExample: string
 }) {
-
-
-    const {robots} = props;
-    const [goodExample, setGoodExample] = useState(undefined as unknown as string);
-    const [badExample, setBadExample] = useState(undefined as unknown as string);
+    const {robots, goodExample, badExample} = props;
     /**
      * Split up the lines in to an array.
      * This makes line by line comparisons easy.
@@ -92,14 +89,6 @@ export function RobotsDisplay(props: {
         }
     }, [robots, goodExample, badExample]);
 
-    useEffect(() => {
-        const fetchExamples = async () => {
-            const [goodFile, badFile] = [await axios.get("/good-practice-robots.txt"), await axios.get("/bad-practice-robots.txt")];
-            setGoodExample(goodFile.data);
-            setBadExample(badFile.data);
-        }
-        fetchExamples();
-    }, []);
 
     /**
      * Will return the line as a li object

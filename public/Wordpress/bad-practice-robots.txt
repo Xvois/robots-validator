@@ -1,0 +1,28 @@
+
+// These are direct matching conditions.
+
+// These take precedence over
+// regex matches. So if there is a direct match condition for
+// main.js and a regex for .js files, the comment for main.js
+// will be displayed inline instead of the regex comment for .js files,
+// however the general comment will be displayed in the summary.
+
+# WARNING | This is not good practice.
+Disallow: /api/
+
+# ERROR | This could be detrimental and action should be taken.
+Disallow: /oauth
+
+# WARNING | These errors are dynamic and linked to this txt file.
+Allow: /api/dynamic-og*
+
+# ERROR | Exposing main.js is a severe security breach.
+Allow: main.js
+
+// These are regex conditions, they are enclosed by backticks to specify such.
+
+# WARNING | Javascript files should not be exposed to crawlers.
+`^Allow: .+\.js$`
+
+# WARNING | CSS files should not be exposed to crawlers.
+`^Allow: .+\.css$`

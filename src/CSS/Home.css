@@ -14,7 +14,6 @@
     list-style-type: none;
     padding: 0;
     counter-increment: item;
-    margin-bottom: 5px;
 }
 
 .robots-line-wrapper:before {

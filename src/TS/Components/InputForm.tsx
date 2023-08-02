@@ -1,8 +1,5 @@
-import React, {SetStateAction, useState} from "react";
-import userAgents from "../../user-agents.json";
+import React, {SetStateAction, useEffect, useState} from "react";
 import axios from "axios";
-import TextField from "@mui/material/TextField";
-import {MenuItem, Select} from "@mui/material";
 
 
 /**
@@ -22,16 +19,46 @@ interface UserAgent {
     agentName: string
 }
 
+/**
+ * This component deals with taking the user inputs for the robots file
+ * and will modify the state of the parent robots and examples files
+ * to match such inputs.
+ * @param props
+ * @constructor
+ */
 export function InputForm(
     props:
         {
-            setRobots: React.Dispatch<SetStateAction<string>>
+            userAgents: UserAgent[],
+            platforms: string[],
+            setRobots: React.Dispatch<SetStateAction<string>>,
+            setGoodExample: React.Dispatch<SetStateAction<string>>,
+            setBadExample: React.Dispatch<SetStateAction<string>>
         }) {
-    const {setRobots} = props;
-    const [url, setURL] = useState(null as unknown as string);
-    const [selectedAgentName, setSelectedAgentName] = useState(userAgents[0].agentName);
+    const {userAgents, platforms, setRobots, setGoodExample, setBadExample} = props;
+    const urlParams = new URLSearchParams(window.location.search);
+    const [selectedPlatform, setSelectedPlatform] = useState(urlParams.get('platform') || platforms[0]);
+    const [url, setURL] = useState(urlParams.get('target-url') || '');
+    const [selectedAgentName, setSelectedAgentName] = useState(urlParams.get('agent-name') || userAgents[0].agentName);
+
+    useEffect(() => {
+        if (url) {
+            getRobots();
+        }
+    }, []);
+
+    useEffect(() => {
+        const fetchExamples = async () => {
+            const [goodFile, badFile] = [await axios.get(`/${selectedPlatform}/good-practice-robots.txt`), await axios.get(`/${selectedPlatform}/bad-practice-robots.txt`)];
+            setGoodExample(goodFile.data);
+            setBadExample(badFile.data);
+        }
+        fetchExamples();
+
+    }, [selectedPlatform]);
 
     const getRobots = () => {
+
         const abortController = new AbortController();
         const signal = abortController.signal;
         const source = axios.CancelToken.source();
@@ -40,10 +67,24 @@ export function InputForm(
             signal: signal,
             cancelToken: source.token,
             "User-Agent": selectedAgentName,
+            timeout: 1000
         };
 
         axios.get(url + "robots.txt", axiosConfig)
-            .then((res) => setRobots(res.data))
+            .then((res) => {
+                setRobots(res.data);
+
+                // Append search parameters to the URL without refreshing the page
+                urlParams.set('target-url', url);
+                window.history.pushState({}, '', `?${urlParams.toString()}`);
+
+                urlParams.set('agent-name', selectedAgentName);
+                window.history.pushState({}, '', `?${urlParams.toString()}`);
+
+                urlParams.set('platform', selectedPlatform);
+                window.history.pushState({}, '', `?${urlParams.toString()}`);
+
+            })
             .catch(error => console.log(error));
 
         return () => {
@@ -54,30 +95,46 @@ export function InputForm(
     return (
         <div>
             <div style={{display: 'flex', flexDirection: 'row', gap: '20px'}}>
-                <TextField
-                    required
-                    id="filled-required"
-                    label="Target URL"
-                    variant="filled"
-                    onChange={(e) => setURL(e.target.value)}
-                />
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    variant="filled"
-                    label="User Agent"
-                    value={selectedAgentName}
-                    onChange={(e) => setSelectedAgentName(e.target.value as string)}
-                >
-                    {
-                        userAgents.map((agent: UserAgent) => (
-                            <MenuItem key={agent.agentName} value={agent.agentName}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    getRobots();
+                }}>
+                    <input
+                        type="text"
+                        id="url-input"
+                        name="url-input"
+                        required
+                        value={url}
+                        onChange={(e) => setURL(e.target.value)} // Update URL state on input change
+                    />
+                    <select
+                        value={selectedAgentName}
+                        onChange={(e) => setSelectedAgentName(e.target.value)} // Update selectedAgentName state on selection change
+                    >
+                        {userAgents.map((agent: UserAgent) => (
+                            <option key={agent.agentName} value={agent.agentName}>
                                 {agent.displayName}
-                            </MenuItem>
-                        ))
-                    }
-                </Select>
-                <button disabled={!isUrlValid(url)} onClick={getRobots}>Test</button>
+                            </option>
+                        ))}
+                    </select>
+                    {platforms.map(platform => {
+                        return (
+                            <>
+                                <input
+                                    type={'radio'}
+                                    id={platform}
+                                    name={"platform"}
+                                    value={platform}
+                                    onChange={(e) => setSelectedPlatform(e.target.value)}
+                                    checked={platform === selectedPlatform}
+                                />
+                                <label htmlFor={platform}>{platform}</label>
+                            </>
+                        )
+
+                    })}
+                    <button type={'submit'}>Test</button>
+                </form>
             </div>
         </div>
     );

@@ -3,16 +3,19 @@ import '../../CSS/Home.css';
 import React, {useState} from "react";
 import {RobotsDisplay} from "./Robots";
 import {InputForm} from "./InputForm";
-
-
-
+import userAgents from "../../user-agents.json";
 
 function Home() {
 
     const [robots, setRobots] = useState(undefined as unknown as string);
+    const platforms = ["Magento", "Shopify", "Wordpress"];
+    const [goodExample, setGoodExample] = useState(undefined as unknown as string);
+    const [badExample, setBadExample] = useState(undefined as unknown as string);
+
+
 
     const example =
-`
+        `
 User-Agent: *
 
 # Allow robots to be able to crawl the OG Image API route and all the subpaths
@@ -38,9 +41,12 @@ Sitemap: https://vercel.com/sitemap.xml`
 
     return (
         <>
-            <h1>Robots.txt validator</h1>
-            <InputForm setRobots={setRobots} />
-            <RobotsDisplay robots={robots ? robots : example} />
+            <div>
+                <h1>Robots.txt validator</h1>
+                <p>Check a public site's robots.txt file against preconfigured best practices.</p>
+                <InputForm {...{userAgents, platforms, setRobots, setGoodExample, setBadExample}} />
+            </div>
+            <RobotsDisplay robots={robots ? robots : example} goodExample={goodExample} badExample={badExample}/>
         </>
     )
 }

@@ -1,0 +1,9 @@
+
+# INFO | This is a neutral comment used to inform.
+Allow: /api/og/*
+
+# NECESSARY | Disallowing old browser pages reverses entropy.
+Disallow: /old-browser.html
+
+# NECESSARY | It's important to add this line for security reasons.
+Totally vital line.
