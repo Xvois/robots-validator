@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
-import Home from "./TS/Home";
+import Home from "./TS/Components/Home";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

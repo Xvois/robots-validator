@@ -18,11 +18,13 @@
 }
 
 .robots-line-wrapper:before {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+    font-weight: normal;
     width: 1.2rem;
     margin-right: 10px;
     content: counter(item);
     border-radius: 100%;
-    color: var(--primary-colour);
     text-align: center;
     display: inline-block;
 }
@@ -34,19 +36,23 @@
 .error {
     font-weight: bold;
     background: rgba(255, 0, 0, 0.5);
+    cursor: default;
 }
 
 .warning {
     font-weight: bold;
     background: rgba(255, 255, 0, 0.5);
+    cursor: default;
 }
 
 .info {
     font-weight: bold;
-    border: 1px dotted var(--primary-colour);
+    border: 1px dashed black;
+    cursor: default;
 }
 
 .necessary {
     font-weight: bold;
     background: rgba(0, 255, 0, 0.5);
+    cursor: default;
 }
