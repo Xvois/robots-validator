@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
+import "../../CSS/RobotsSummary.css"
+import "../../CSS/RobotsDisplay.css"
 import {Tooltip} from "@mui/material";
-import WarningIcon from '@mui/icons-material/Warning';
 import ErrorIcon from '@mui/icons-material/Error';
+import WarningIcon from "@mui/icons-material/Warning"
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {Comment, extractTypeAndMessage, getMissingLineComments, getRegexMatchComments} from "../Functions/CommentFuncs";
 
 export function RobotsDisplay(props: {
     robots: string
     goodExample: string,
-    badExample: string
+    badExample: string,
 }) {
     const {robots, goodExample, badExample} = props;
     /**
@@ -56,18 +59,31 @@ export function RobotsDisplay(props: {
                         const index = array.findIndex(l => l === line);
                         // If there is a direct match.
                         if (index !== -1) {
-                            const rawComment = array[index - 1];
+                            let rawComment = null;
 
-                            const {type, message} = extractTypeAndMessage(rawComment);
+                            for (let i = index - 1; i >= 0; i--) {
+                                const potentialComment = array[i];
+                                if (potentialComment.trim().startsWith('#')) {
+                                    rawComment = potentialComment;
+                                    break;
+                                }
+                            }
 
-                            const comment: Comment = {
-                                // @ts-ignore
-                                type: type,
-                                message: message,
-                                index: lineIndex
-                            };
+                            if (rawComment) {
+                                const {type, message} = extractTypeAndMessage(rawComment);
 
-                            partialComments.push(comment);
+                                const messageElement = <p>{message}</p>
+
+                                const comment: Comment = {
+                                    // @ts-ignore
+                                    type: type,
+                                    messageElement: messageElement,
+                                    index: lineIndex
+                                };
+
+                                partialComments.push(comment);
+                            }
+
                         }
                     });
                 }
@@ -101,15 +117,40 @@ export function RobotsDisplay(props: {
 
         const comment: Comment | undefined = allComments.find(c => c.index === lineIndex);
 
+        let icon: ReactElement | undefined;
+
+        if (comment) {
+            switch (comment.type) {
+                case "ERROR":
+                    const errorSx = {color: 'var(--error-colour)', fontSize: '1em', marginLeft: '5px'};
+                    icon = <ErrorIcon sx={errorSx}/>
+                    break;
+                case "WARNING":
+                    const warningSx = {color: 'var(--warning-colour)', fontSize: '1em', marginLeft: '5px'};
+                    icon = <WarningIcon sx={warningSx}/>
+                    break;
+                case "INFO":
+                    const infoSx = {color: 'var(--primary-colour)', fontSize: '1em', marginLeft: '5px'};
+                    icon = <InfoOutlinedIcon sx={infoSx}/>
+                    break;
+            }
+        }
+
         return (
-            <li key={lineIndex}
-                className={comment ? 'robots-line-wrapper ' + comment.type.toLowerCase() : 'robots-line-wrapper'}>
+            <li key={lineIndex} id={`${lineIndex}`}
+                className={`robots-line-wrapper`}>
                 {comment !== undefined ?
-                    <Tooltip disableFocusListener title={comment.message} arrow placement={"right"}>
+                    <>
                         <code>
                             {line}
                         </code>
-                    </Tooltip>
+                        {icon &&
+                            <Tooltip disableFocusListener title={comment.messageElement} arrow placement={"right"}>
+                                {icon}
+                            </Tooltip>
+                        }
+                    </>
+
                     :
                     <code>{line}</code>
                 }
@@ -127,51 +168,87 @@ export function RobotsDisplay(props: {
                     })
                     }
                 </ol>
-                <RobotsSummary robotsArray={robotsArray} warnings={warnings} errors={errors}/>
+                <RobotsSummary robotsArray={robotsArray} warnings={warnings}
+                               errors={errors}/>
             </div>
             :
             <></>
     )
 }
 
-const RobotsSummary = (props: { robotsArray: string[], warnings: Comment[], errors: Comment[] }) => {
+const RobotsSummary = (props: {
+    robotsArray: string[],
+    warnings: Comment[],
+    errors: Comment[]
+}) => {
     const {robotsArray, warnings, errors} = props;
+    const [expanded, setExpanded] = useState(false);
     return (
-        <div className={'robots-summary'}>
-            <div>
-                <p><ErrorIcon fontSize={'small'}/>{errors.length} error{errors.length !== 1 && 's'}</p>
-                <ul>
-                    {errors.map(comment => {
-                        return (
-                            <li>
-                                <p>
-                                    ERROR: {robotsArray[comment.index]}
-                                </p>
-                                <p>
-                                    {comment.message}
-                                </p>
-                            </li>
-                        )
-                    })}
-                </ul>
+        <div className={'robots-summary' + (expanded ? ' summary-expanded' : '')}>
+            <div className={'collapsed-summary'}>
+                <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
+                <p>
+                    {errors.length} error{errors.length !== 1 && 's'}
+                </p>
+                <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
+                <p>
+                    {warnings.length} warning{warnings.length !== 1 && 's'}
+                </p>
+                <button className={'inline-button'}
+                        onClick={() => setExpanded(state => !state)}>{expanded ? 'Show less' : 'Show more'}</button>
             </div>
-            <div>
-                <p><WarningIcon fontSize={'small'}/>{warnings.length} warning{warnings.length !== 1 && 's'}</p>
-                <ul>
-                    {warnings.map(comment => {
-                        return (
-                            <li>
-                                <p>
-                                    WARNING: {robotsArray[comment.index]}
-                                </p>
-                                <p>
-                                    {comment.message}
-                                </p>
-                            </li>
-                        )
-                    })}
-                </ul>
-            </div>
+            {errors.length > 0 &&
+                <>
+                    <div className={'collapsed-summary'}>
+                        <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
+                        <h3>Errors</h3>
+                    </div>
+                    <ul>
+                        {errors.sort((a, b) => a.index - b.index).map(comment => {
+                            return (
+                                <li className={'summary-li-instance'}>
+                                    <code style={{fontWeight: 'bold'}}>
+                                        {robotsArray[comment.index]}
+                                    </code>
+                                    {comment.messageElement}
+                                    {comment.index > -1 &&
+                                        <a style={{color: 'var(--primary-colour)'}} href={`#${comment.index}`}>
+                                            Line {comment.index + 1}
+                                        </a>
+                                    }
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </>
+            }
+            {warnings.length > 0 &&
+                <>
+                    <div className={'collapsed-summary'}>
+                        <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
+                        <h3>Warnings</h3>
+                    </div>
+                    <ul>
+                        {warnings.sort((a, b) => a.index - b.index).map(comment => {
+                            return (
+                                <li className={'summary-li-instance'}>
+                                    {comment.index > -1 &&
+                                        <code style={{fontWeight: 'bold'}}>
+                                            {robotsArray[comment.index]}
+                                        </code>
+                                    }
+                                    {comment.messageElement}
+                                    {comment.index > -1 &&
+                                        <a style={{color: 'var(--primary-colour)'}} href={`#${comment.index}`}>
+                                            Line {comment.index + 1}
+                                        </a>
+                                    }
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </>
+            }
         </div>
     )
 }

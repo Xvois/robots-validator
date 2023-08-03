@@ -1,46 +1,37 @@
-# Getting Started with Create React App
+# Robots.txt validator
+A simple front end to validate robots files against preexisting best practices for a number of platforms.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Platform example files.
+Example files for each platform are under their own name in the `public` folder. 
+Edit their contents on the main branch for updates to automatically apply on the frontend.
 
-## Available Scripts
+### Editing an existing platform.
+Example files use a simple system whereby capture groups are annotated by comments at their very beginning.
+Comments always abide by this format:
 
-In the project directory, you can run:
+`# TYPE | Comment`
 
-### `npm start`
+Any content beneath a comment until the next one will be associated with it.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Content beneath comments are usually direct match conditions, so for the condition to be satisfied
+their must be a identical match in the target robots.txt file.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Regex patterns **are supported** and must be enclosed by backticks. Each regex condition must have its own comment.
 
-### `npm test`
+Supported types include: 
+- NECESSARY: For conditions that **must** be met. If they are not then a warning will show.
+- INFO: To provide neutral information on a statement.
+- WARNING: To inform about an issue that may impact the user.
+- ERROR: A critical mistake of the highest priority. 
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+NECESSARY and INFO types should **only** be put in the good practice file.
 
-### `npm run build`
+WARNING and ERROR types should **only** be put in the bad practice file.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Adding a platform.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To add a platform first add a folder to the `public` folder and add the appropriate txt files.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Next head to `src/TS/Components/Home.tsx` and modify the `platforms` constant to include the platform name
+you just added. This is **case sensitive** so ensure it is typed correctly.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

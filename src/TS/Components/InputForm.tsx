@@ -15,8 +15,9 @@ export const isUrlValid = (url: string) => {
 }
 
 interface UserAgent {
-    displayName: string,
-    agentName: string
+    pattern: string,
+    url?: string,
+    instances: string[]
 }
 
 /**
@@ -39,11 +40,11 @@ export function InputForm(
     const urlParams = new URLSearchParams(window.location.search);
     const [selectedPlatform, setSelectedPlatform] = useState(urlParams.get('platform') || platforms[0]);
     const [url, setURL] = useState(urlParams.get('target-url') || '');
-    const [selectedAgentName, setSelectedAgentName] = useState(urlParams.get('agent-name') || userAgents[0].agentName);
+    const [selectedUserAgent, setSelectedUserAgent] = useState(userAgents.find(agent => agent.pattern === urlParams.get('agent-pattern')) || userAgents[0]);
 
     useEffect(() => {
         if (url) {
-            getRobots();
+            return getRobots();
         }
     }, []);
 
@@ -54,6 +55,11 @@ export function InputForm(
             setBadExample(badFile.data);
         }
         fetchExamples();
+
+        urlParams.set('platform', selectedPlatform);
+
+        // Append search parameters to the URL without refreshing the page
+        window.history.pushState({}, '', `?${urlParams.toString()}`);
 
     }, [selectedPlatform]);
 
@@ -66,76 +72,86 @@ export function InputForm(
         const axiosConfig = {
             signal: signal,
             cancelToken: source.token,
-            "User-Agent": selectedAgentName,
             timeout: 1000
         };
+
+        const cleanupMessage = "Canceled by cleanup.";
 
         axios.get(url + "robots.txt", axiosConfig)
             .then((res) => {
                 setRobots(res.data);
 
-                // Append search parameters to the URL without refreshing the page
                 urlParams.set('target-url', url);
-                window.history.pushState({}, '', `?${urlParams.toString()}`);
-
-                urlParams.set('agent-name', selectedAgentName);
-                window.history.pushState({}, '', `?${urlParams.toString()}`);
-
+                urlParams.set('agent-pattern', selectedUserAgent.pattern);
                 urlParams.set('platform', selectedPlatform);
-                window.history.pushState({}, '', `?${urlParams.toString()}`);
 
+                // Append search parameters to the URL without refreshing the page
+                window.history.pushState({}, '', `?${urlParams.toString()}`);
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                if (error.message !== cleanupMessage) {
+                    console.warn(error);
+                }
+            });
 
         return () => {
-            source.cancel("Canceled by cleanup.");
+            source.cancel(cleanupMessage);
+        }
+    }
+
+    const modifyUserAgent = (targetPattern: string) => {
+        const agent = userAgents.find(agent => agent.pattern === targetPattern);
+        if (agent) {
+            setSelectedUserAgent(agent);
+        } else {
+            console.warn(`Agent with pattern ${targetPattern} not found!`);
         }
     }
 
     return (
-        <div>
-            <div style={{display: 'flex', flexDirection: 'row', gap: '20px'}}>
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    getRobots();
-                }}>
-                    <input
-                        type="text"
-                        id="url-input"
-                        name="url-input"
-                        required
-                        value={url}
-                        onChange={(e) => setURL(e.target.value)} // Update URL state on input change
-                    />
+        <div style={{display: 'flex', flexDirection: 'row', gap: '20px'}}>
+            <form onSubmit={(e) => {
+                e.preventDefault();
+                getRobots();
+            }}>
+                <input
+                    type="text"
+                    id="url-input"
+                    name="url-input"
+                    required
+                    value={url}
+                    onChange={(e) => setURL(e.target.value)} // Update URL state on input change
+                />
+                {/*
                     <select
-                        value={selectedAgentName}
-                        onChange={(e) => setSelectedAgentName(e.target.value)} // Update selectedAgentName state on selection change
+                        value={selectedUserAgent.pattern}
+                        onChange={(e) => modifyUserAgent(e.target.value)}
                     >
                         {userAgents.map((agent: UserAgent) => (
-                            <option key={agent.agentName} value={agent.agentName}>
-                                {agent.displayName}
+                            <option key={agent.pattern} value={agent.pattern}>
+                                {agent.pattern}
                             </option>
                         ))}
                     </select>
-                    {platforms.map(platform => {
-                        return (
-                            <>
-                                <input
-                                    type={'radio'}
-                                    id={platform}
-                                    name={"platform"}
-                                    value={platform}
-                                    onChange={(e) => setSelectedPlatform(e.target.value)}
-                                    checked={platform === selectedPlatform}
-                                />
-                                <label htmlFor={platform}>{platform}</label>
-                            </>
-                        )
+                */}
+                {platforms.map(platform => {
+                    return (
+                        <div key={platform}>
+                            <input
+                                type={'radio'}
 
-                    })}
-                    <button type={'submit'}>Test</button>
-                </form>
-            </div>
+                                id={platform}
+                                name={"platform"}
+                                value={platform}
+                                onChange={(e) => setSelectedPlatform(e.target.value)}
+                                checked={platform === selectedPlatform}
+                            />
+                            <label htmlFor={platform}>{platform}</label>
+                        </div>
+                    )
+                })}
+                <button disabled={!isUrlValid(url)} type={'submit'}>Test</button>
+            </form>
         </div>
     );
 }

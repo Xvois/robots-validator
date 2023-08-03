@@ -44,8 +44,16 @@ Sitemap: https://vercel.com/sitemap.xml`
             <div>
                 <h1>Robots.txt validator</h1>
                 <p>Check a public site's robots.txt file against preconfigured best practices.</p>
-                <InputForm {...{userAgents, platforms, setRobots, setGoodExample, setBadExample}} />
+                <strong>
+                    Little testing help! Without typing in a URL the page tests an example text file.
+                    The Magento platform choice is configured with the actual txts provided.
+                    Both Shopify and Wordpress use arbitrary example files to test against to showcase
+                    the validator.
+                    <br/>
+                    Hover over errors, warnings or info tags for context.
+                </strong>
             </div>
+            <InputForm {...{userAgents, platforms, setRobots, setGoodExample, setBadExample}} />
             <RobotsDisplay robots={robots ? robots : example} goodExample={goodExample} badExample={badExample}/>
         </>
     )

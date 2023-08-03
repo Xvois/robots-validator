@@ -1,3 +1,5 @@
+import {ReactElement} from "react";
+
 /**
  * A comment is an object that can reference line
  * in the text file to note something.
@@ -6,7 +8,7 @@
  */
 export interface Comment {
     type: "NECESSARY" | "INFO" | "WARNING" | "ERROR" | string,
-    message: string,
+    messageElement: ReactElement,
     index: number
 }
 
@@ -16,7 +18,7 @@ export interface Comment {
  * @param string
  * @return {string, string}
  */
-export function extractTypeAndMessage(string: string) : {type: string, message: string} {
+export function extractTypeAndMessage(string: string): { type: string, message: string } {
     const typeRegex = /# ([A-Z ]+) \|/;
     const messageRegex = /\| (.+)/;
 
@@ -39,25 +41,39 @@ export function extractTypeAndMessage(string: string) : {type: string, message: 
  * @param matchArray The array containing **NECESSARY** comments & conditions to test.
  * @returns Comment[]
  */
-export const getMissingLineComments = (inputArray: string[], matchArray: string[]) : Comment[] => {
+export const getMissingLineComments = (inputArray: string[], matchArray: string[]): Comment[] => {
     const warnings: Comment[] = [];
-    matchArray.forEach((goodLine, index) => {
-        // We assume we are looking at a comment of a line.
-        // If we are not then these just resolve to empty strings
-        // and the line is missed.
-        const {type, message} = extractTypeAndMessage(goodLine);
-        if (type === "NECESSARY") {
-            if (!inputArray.some(providedLine => providedLine === matchArray[index + 1])) {
-                warnings.push({
-                    type: "WARNING",
-                    message: `${matchArray[index + 1]} is missing. ${message}`,
-                    index: -1
-                })
+    // Flag to check if we are currently in a block of necessary
+    // conditions.
+    let necessaryBlock = false;
+    let blockCommentIndex = undefined as unknown as number;
+
+    for (let i = 0; i < matchArray.length; i++) {
+        const matchLine = matchArray[i].trim();
+        if (necessaryBlock) {
+            if (matchLine.startsWith('#')) {
+                necessaryBlock = false;
+            } else {
+                if (!inputArray.some(providedLine => providedLine === matchLine)) {
+                    const {type, message} = extractTypeAndMessage(matchArray[blockCommentIndex]);
+                    warnings.push({
+                        type: "WARNING",
+                        messageElement: <p><strong>Missing line:</strong> <code>{matchLine}</code> <br/> {message}</p>,
+                        index: -1
+                    })
+                }
             }
         }
-    })
+
+        if (matchLine.startsWith('# NECESSARY')) {
+            necessaryBlock = true;
+            blockCommentIndex = i;
+        }
+    }
+
     return warnings;
 }
+
 /**
  * Returns an array of comments
  * from an associated regex match.
@@ -69,7 +85,7 @@ export const getMissingLineComments = (inputArray: string[], matchArray: string[
  * @param matchArray The array containing regex statements to test.
  * @returns Comment[]
  */
-export const getRegexMatchComments = (inputArray: string[], matchArray: string[]) : Comment[] => {
+export const getRegexMatchComments = (inputArray: string[], matchArray: string[]): Comment[] => {
 
     const comments: Comment[] = [];
 
@@ -95,9 +111,10 @@ export const getRegexMatchComments = (inputArray: string[], matchArray: string[]
             const match = line.match(regexStatement);
             if (match) {
                 const {type, message} = extractTypeAndMessage(regexRawComments[regexIndex]);
+                const messageElement = <p>{message}</p>
                 const comment: Comment = {
                     type,
-                    message,
+                    messageElement,
                     index: lineIndex
                 };
                 comments.push(comment)

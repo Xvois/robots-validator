@@ -6,4 +6,4 @@ Allow: /api/og/*
 Disallow: /old-browser.html
 
 # NECESSARY | It's important to add this line for security reasons.
-Totally vital line.
+Shopify vital line

@@ -1,0 +1,31 @@
+
+.robots-summary {
+    width: 400px;
+    height: 53.333px;
+    overflow: hidden;
+    flex-grow: 1;
+    padding: 15px;
+    background: var(--secondary-colour);
+    border: 1px solid var(--border-colour);
+
+}
+
+.summary-expanded {
+   height: max-content;
+}
+
+
+.collapsed-summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.summary-li-instance {
+
+}
+
+.summary-li-instance > p {
+    margin: 0;
+}

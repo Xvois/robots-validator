@@ -1,9 +1,62 @@
+User-agent: *
+User-agent: Googlebot
+User-agent: Googlebot-image
 
-# INFO | This is a neutral comment used to inform.
-Allow: /api/og/*
+Disallow: /*?
 
-# NECESSARY | Disallowing old browser pages reverses entropy.
-Disallow: /old-browser.html
+# NECESSARY | Pagination should be allowed
+Allow: /*?page=
+Allow: /*?p=
+Allow: /graphql?
 
-# NECESSARY | It's important to add this line for security reasons.
-Totally vital line.
+# NECESSARY | This directory should not be crawl-able.
+Disallow: /*SID=
+Disallow: /repo/
+Disallow: /catalog/product_compare/
+Disallow: /catalog/category/view/
+Disallow: /catalog/product/view/
+Disallow: /catalog/seo_sitemap/
+Disallow: /catalogsearch/
+Disallow: /mfproductsearch/
+Disallow: /checkout/
+Disallow: /control/
+Disallow: /customer/
+Disallow: /customize/
+Disallow: /sendfriend/
+Disallow: /ajaxcart/
+Disallow: /ajax/
+Disallow: /quickview/
+Disallow: /productalert/
+Disallow: /mfcmsdr/
+Disallow: /sales/guest/form/
+Disallow: /sales/guest/form/
+Disallow: /review/
+Disallow: /downloadable/
+Disallow: /pslogin
+Disallow: /subscription
+Disallow: /newsletter
+Disallow: /push_notification
+
+# NECESSARY | Disallow access to files.
+Disallow: /index.php
+Disallow: /cron.php
+Disallow: /cron.sh
+Disallow: /error_log
+Disallow: /install.php
+Disallow: /LICENSE.html
+Disallow: /LICENSE.txt
+Disallow: /LICENSE_AFL.txt
+Disallow: /STATUS.txt
+Disallow: /get.php
+Disallow: /app/
+Disallow: /lib/
+Disallow: /*.php$
+Disallow: /pkginfo/
+Disallow: /report/
+Disallow: /var/
+
+# NECESSARY | Disallow Cookie Restriction page.
+Disallow: /privacy-policy-cookie-restriction-mode
+Disallow: /no-route
+Disallow: /enable-cookies
+Disallow: /home
