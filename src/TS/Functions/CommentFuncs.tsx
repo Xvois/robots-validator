@@ -33,13 +33,36 @@ export function extractTypeAndMessage(string: string): { type: string, message: 
 
 
 /**
- * Returns an array of comments
- * of a warning type for any lines marked
- * *NECESSARY* in a good practice file
+ * Returns an array of warning comments for any lines marked **NECESSARY** in a good practice file
  * but not found in the provided file.
- * @param inputArray The array that will be tested.
- * @param matchArray The array containing **NECESSARY** comments & conditions to test.
- * @returns Comment[]
+ *
+ * The function compares the `inputArray` with the comments and conditions in the `matchArray`.
+ * If a line is marked as **NECESSARY** in the `matchArray` but not found in the `inputArray`,
+ * a warning comment will be generated and added to the result array.
+ *
+ * @param {string[]} inputArray - The array to be tested for missing lines.
+ * @param {string[]} matchArray - The array containing comments and conditions marked as **NECESSARY**.
+ * @returns {Comment[]} An array of Comment objects, each representing a warning comment.
+ *
+ * @example
+ * const inputArray = [
+ *   'Line 1',
+ *   'Line 3',
+ *   'Line 4',
+ * ];
+ * const matchArray = [
+ *   '# NECESSARY | This line is required',
+ *   'Line 1',
+ *   '# NECESSARY | This line is required',
+ *   'Line 2',
+ * ];
+ *
+ * const warnings = getMissingLineComments(inputArray, matchArray);
+ * console.log(warnings);
+ * // Output:
+ * // [
+ * //   { type: 'WARNING', messageElement: <p><strong>Missing line:</strong> <code>Line 2</code> <br/> This line is required</p>, index: -1 }
+ * // ]
  */
 export const getMissingLineComments = (inputArray: string[], matchArray: string[]): Comment[] => {
     const warnings: Comment[] = [];
@@ -75,16 +98,15 @@ export const getMissingLineComments = (inputArray: string[], matchArray: string[
 }
 
 /**
- * Returns an array of comments
- * from an associated regex match.
+ * Extracts comments from an associated regex match in an input array.
  *
  * The regex statements can be anywhere in the match array
- * as long as they are wrapped in backticks and
- * have a comment above them.
- * @param inputArray The array that will be tested.
- * @param matchArray The array containing regex statements to test.
- * @returns Comment[]
- */
+ * as long as they are wrapped in backticks and have a comment above them.
+ *
+ * @param {string[]} inputArray - The array to be tested for regex matches.
+ * @param {string[]} matchArray - The array containing regex statements to test against the input array.
+ * @returns {Comment[]} An array of Comment objects, each representing a match with its associated comment.
+**/
 export const getRegexMatchComments = (inputArray: string[], matchArray: string[]): Comment[] => {
 
     const comments: Comment[] = [];

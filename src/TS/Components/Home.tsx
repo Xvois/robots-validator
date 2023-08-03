@@ -1,9 +1,10 @@
 import '../../CSS/index.css';
 import '../../CSS/Home.css';
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {RobotsDisplay} from "./Robots";
 import {InputForm} from "./InputForm";
 import userAgents from "../../user-agents.json";
+import {isProxyAlive} from "../Functions/FetchingFuncs";
 
 function Home() {
 
@@ -12,6 +13,11 @@ function Home() {
     const [goodExample, setGoodExample] = useState(undefined as unknown as string);
     const [badExample, setBadExample] = useState(undefined as unknown as string);
 
+    const [proxyAlive, setProxyAlive] = useState(undefined as unknown as boolean);
+
+    useEffect(() => {
+        isProxyAlive().then(res => setProxyAlive(res));
+    }, []);
 
 
     const example =
@@ -45,13 +51,11 @@ Sitemap: https://vercel.com/sitemap.xml`
                 <h1>Robots.txt validator</h1>
                 <p>Check a public site's robots.txt file against preconfigured best practices.</p>
                 <strong>
-                    Little testing help! Without typing in a URL the page tests an example text file.
-                    The Magento platform choice is configured with the actual txts provided.
-                    Both Shopify and Wordpress use arbitrary example files to test against to showcase
-                    the validator.
+                    This version should run with a proxy server to fetch robots files, avoiding CORS errors.
+                    Without the proxy server all requests will fail.
                     <br/>
-                    Hover over errors, warnings or info tags for context.
                 </strong>
+                <p>Is proxy alive? {proxyAlive === undefined ? 'Checking...' : (proxyAlive ? 'Yes!' : 'No. All outward requests will fail.') }</p>
             </div>
             <InputForm {...{userAgents, platforms, setRobots, setGoodExample, setBadExample}} />
             <RobotsDisplay robots={robots ? robots : example} goodExample={goodExample} badExample={badExample}/>

@@ -1,5 +1,5 @@
-import React, {SetStateAction, useEffect, useState} from "react";
-import axios from "axios";
+import React, {FormEvent, SetStateAction, useEffect, useState} from "react";
+import {fetchExamples, fetchRobots} from "../Functions/FetchingFuncs";
 
 
 /**
@@ -8,7 +8,7 @@ import axios from "axios";
  * @param url
  * @returns boolean
  */
-export const isUrlValid = (url: string) => {
+export const urlIsValid = (url: string) => {
     const regex = "^(http(s):\\/\\/.)[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&\\/\\/=]*)$";
     const match = url?.match(regex);
     return !!match;
@@ -44,60 +44,40 @@ export function InputForm(
 
     useEffect(() => {
         if (url) {
-            return getRobots();
+            fetchRobots(new URL(url))
+                .then((res) => setRobots(res))
+                .catch((err) => console.error(err));
         }
     }, []);
 
     useEffect(() => {
-        const fetchExamples = async () => {
-            const [goodFile, badFile] = [await axios.get(`/${selectedPlatform}/good-practice-robots.txt`), await axios.get(`/${selectedPlatform}/bad-practice-robots.txt`)];
-            setGoodExample(goodFile.data);
-            setBadExample(badFile.data);
+
+        const fetchData = async () => {
+            const [goodExample, badExample] = await fetchExamples(selectedPlatform);
+            setGoodExample(goodExample);
+            setBadExample(badExample);
         }
-        fetchExamples();
 
-        urlParams.set('platform', selectedPlatform);
-
-        // Append search parameters to the URL without refreshing the page
-        window.history.pushState({}, '', `?${urlParams.toString()}`);
+        fetchData();
 
     }, [selectedPlatform]);
 
-    const getRobots = () => {
+    const handleSubmit = (e: FormEvent) => {
+        e.preventDefault();
 
-        const abortController = new AbortController();
-        const signal = abortController.signal;
-        const source = axios.CancelToken.source();
+        if (urlIsValid(url)) {
+            fetchRobots(new URL(url))
+                .then((res) => setRobots(res))
+                .catch((err) => console.error(err));
 
-        const axiosConfig = {
-            signal: signal,
-            cancelToken: source.token,
-            timeout: 1000
-        };
-
-        const cleanupMessage = "Canceled by cleanup.";
-
-        axios.get(url + "robots.txt", axiosConfig)
-            .then((res) => {
-                setRobots(res.data);
-
-                urlParams.set('target-url', url);
-                urlParams.set('agent-pattern', selectedUserAgent.pattern);
-                urlParams.set('platform', selectedPlatform);
-
-                // Append search parameters to the URL without refreshing the page
-                window.history.pushState({}, '', `?${urlParams.toString()}`);
-            })
-            .catch(error => {
-                if (error.message !== cleanupMessage) {
-                    console.warn(error);
-                }
-            });
-
-        return () => {
-            source.cancel(cleanupMessage);
+            urlParams.set('target-url', url);
+            urlParams.set('agent-pattern', selectedUserAgent.pattern);
+            urlParams.set('platform', selectedPlatform);
+            window.history.pushState({}, '', `?${urlParams.toString()}`);
         }
-    }
+
+    };
+
 
     const modifyUserAgent = (targetPattern: string) => {
         const agent = userAgents.find(agent => agent.pattern === targetPattern);
@@ -106,14 +86,11 @@ export function InputForm(
         } else {
             console.warn(`Agent with pattern ${targetPattern} not found!`);
         }
-    }
+    };
 
     return (
         <div style={{display: 'flex', flexDirection: 'row', gap: '20px'}}>
-            <form onSubmit={(e) => {
-                e.preventDefault();
-                getRobots();
-            }}>
+            <form onSubmit={handleSubmit}>
                 <input
                     type="text"
                     id="url-input"
@@ -139,7 +116,6 @@ export function InputForm(
                         <div key={platform}>
                             <input
                                 type={'radio'}
-
                                 id={platform}
                                 name={"platform"}
                                 value={platform}
@@ -150,7 +126,7 @@ export function InputForm(
                         </div>
                     )
                 })}
-                <button disabled={!isUrlValid(url)} type={'submit'}>Test</button>
+                <button disabled={!urlIsValid(url)} type={'submit'}>Test</button>
             </form>
         </div>
     );
