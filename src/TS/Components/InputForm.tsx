@@ -1,5 +1,9 @@
 import React, {FormEvent, SetStateAction, useEffect, useState} from "react";
 import {fetchExamples, fetchRobots} from "../Functions/FetchingFuncs";
+import {FormControl, FormControlLabel, RadioGroup} from "@mui/material";
+import {AxiosError} from "axios";
+import {StyledRadio, StyledTextField} from "./StyledComponents";
+import "../../CSS/InputForm.css"
 
 
 /**
@@ -34,99 +38,98 @@ export function InputForm(
             platforms: string[],
             setRobots: React.Dispatch<SetStateAction<string>>,
             setGoodExample: React.Dispatch<SetStateAction<string>>,
-            setBadExample: React.Dispatch<SetStateAction<string>>
+            setBadExample: React.Dispatch<SetStateAction<string>>,
         }) {
     const {userAgents, platforms, setRobots, setGoodExample, setBadExample} = props;
     const urlParams = new URLSearchParams(window.location.search);
     const [selectedPlatform, setSelectedPlatform] = useState(urlParams.get('platform') || platforms[0]);
     const [url, setURL] = useState(urlParams.get('target-url') || '');
-    const [selectedUserAgent, setSelectedUserAgent] = useState(userAgents.find(agent => agent.pattern === urlParams.get('agent-pattern')) || userAgents[0]);
+    const [fetchError, setFetchError] = useState(undefined as unknown as AxiosError);
 
     useEffect(() => {
         if (url) {
             fetchRobots(new URL(url))
-                .then((res) => setRobots(res))
-                .catch((err) => console.error(err));
+                .then((res) => {
+                    setRobots(res);
+                    setFetchError(undefined as unknown as AxiosError);
+                })
+                .catch((err) => {
+                    setFetchError(err);
+                    console.warn(err)
+                });
         }
     }, []);
 
     useEffect(() => {
 
-        const fetchData = async () => {
-            const [goodExample, badExample] = await fetchExamples(selectedPlatform);
-            setGoodExample(goodExample);
-            setBadExample(badExample);
-        }
-
-        fetchData();
+        fetchExamples(selectedPlatform).then(function ([good, bad]) {
+                setGoodExample(good);
+                setBadExample(bad);
+            }
+        );
 
     }, [selectedPlatform]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
+
         if (urlIsValid(url)) {
+            setRobots(undefined as unknown as string);
             fetchRobots(new URL(url))
-                .then((res) => setRobots(res))
-                .catch((err) => console.error(err));
+                .then((res) => {
+                    setRobots(res);
+                    setFetchError(undefined as unknown as AxiosError);
+                })
+                .catch((err) => {
+                    setFetchError(err);
+                    console.warn(err)
+                });
 
             urlParams.set('target-url', url);
-            urlParams.set('agent-pattern', selectedUserAgent.pattern);
             urlParams.set('platform', selectedPlatform);
             window.history.pushState({}, '', `?${urlParams.toString()}`);
         }
 
     };
 
-
-    const modifyUserAgent = (targetPattern: string) => {
-        const agent = userAgents.find(agent => agent.pattern === targetPattern);
-        if (agent) {
-            setSelectedUserAgent(agent);
-        } else {
-            console.warn(`Agent with pattern ${targetPattern} not found!`);
-        }
-    };
-
     return (
-        <div style={{display: 'flex', flexDirection: 'row', gap: '20px'}}>
+        <div style={{display: 'flex', flexDirection: 'row', gap: '20px', margin: '20px 0'}}>
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    id="url-input"
-                    name="url-input"
-                    required
-                    value={url}
-                    onChange={(e) => setURL(e.target.value)} // Update URL state on input change
-                />
-                {/*
-                    <select
-                        value={selectedUserAgent.pattern}
-                        onChange={(e) => modifyUserAgent(e.target.value)}
+                <FormControl sx={{display: 'flex', flexDirection: 'column'}}>
+                    <div id={'text-field-radio-group-wrapper'}>
+                        <StyledTextField
+                            fullWidth
+                            required
+                            size={'small'}
+                            id="url-field"
+                            label="URL"
+                            error={!!fetchError}
+                            defaultValue={url}
+                            helperText={fetchError ? `${fetchError.name}: ${fetchError.message}` : ''}
+                            variant="outlined"
+                            onChange={(e) => setURL(e.target.value)}
+                        />
+                        <button id={'submission-button'} disabled={!urlIsValid(url)} type={'submit'}>Test</button>
+                    </div>
+                    <RadioGroup
+                        row
+                        name={'platform-radio-controlled'}
+                        value={selectedPlatform}
+                        onChange={(e) => setSelectedPlatform(e.target.value)}
                     >
-                        {userAgents.map((agent: UserAgent) => (
-                            <option key={agent.pattern} value={agent.pattern}>
-                                {agent.pattern}
-                            </option>
-                        ))}
-                    </select>
-                */}
-                {platforms.map(platform => {
-                    return (
-                        <div key={platform}>
-                            <input
-                                type={'radio'}
-                                id={platform}
-                                name={"platform"}
-                                value={platform}
-                                onChange={(e) => setSelectedPlatform(e.target.value)}
-                                checked={platform === selectedPlatform}
-                            />
-                            <label htmlFor={platform}>{platform}</label>
-                        </div>
-                    )
-                })}
-                <button disabled={!urlIsValid(url)} type={'submit'}>Test</button>
+                        {platforms.map(platform => {
+                            return (
+                                <FormControlLabel
+                                    key={platform}
+                                    control={<StyledRadio/>}
+                                    value={platform}
+                                    label={platform}
+                                />
+                            )
+                        })}
+                    </RadioGroup>
+                </FormControl>
             </form>
         </div>
     );

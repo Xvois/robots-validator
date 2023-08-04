@@ -1,17 +1,12 @@
 
 .robots-summary {
-    width: 400px;
-    height: 53.333px;
-    overflow: hidden;
+    width: 350px;
+    height: max-content;
     flex-grow: 1;
+    overflow: hidden;
     padding: 15px;
     background: var(--secondary-colour);
     border: 1px solid var(--border-colour);
-
-}
-
-.summary-expanded {
-   height: max-content;
 }
 
 

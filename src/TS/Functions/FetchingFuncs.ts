@@ -1,15 +1,6 @@
 import axios, {CancelTokenSource} from "axios";
 
-export const isProxyAlive = async () => {
-  try {
-    const response = await axios.get('http://localhost:5000/ping');
-    console.log(response);
-    return response.status === 200; // Return true if the status code is 200 (OK)
-  } catch (error) {
-    // If there was an error, the server is not alive
-    return false;
-  }
-};
+const AWS_PROXY_ENDPOINT='https://g9i9unbrzf.execute-api.eu-north-1.amazonaws.com/default/Robots-Proxy'
 
 export const fetchExamples = async (platform : string) => {
     return [(await axios.get(`/${platform}/good-practice-robots.txt`)).data, (await axios.get(`/${platform}/bad-practice-robots.txt`)).data] as [string, string];
@@ -60,7 +51,7 @@ export const fetchRobots = (() => {
 
     try {
       currentRequest = source; // Store the current request token in the closure
-      const requestUrl = new URL('http://localhost:5000/robots');
+      const requestUrl = new URL(AWS_PROXY_ENDPOINT);
       requestUrl.searchParams.append('url', url.toString());
 
       const response = await axios.get(requestUrl.toString(), axiosConfig);

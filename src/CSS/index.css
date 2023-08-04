@@ -5,8 +5,8 @@ body {
 
     --bg-colour: #272727;
     --primary-colour: #EEF0F2;
-    --secondary-colour: #2F2F2F;
-    --border-colour: #788585;
+    --secondary-colour: rgba(125, 125, 125, 0.15);
+    --border-colour: rgba(125, 125, 125, 0.25);
     --accent-colour: #fca311;
 
     --error-colour: #F87060;
@@ -38,4 +38,23 @@ code {
     font-weight: bold;
     background: none;
     border: none;
+}
+
+
+.placeholder {
+    animation: placeholder 1s ease infinite;
+    border: 1px solid var(--border-colour);
+
+}
+
+@keyframes placeholder {
+    0% {
+        background: rgba(125, 125, 125, 0.15);
+    }
+    50% {
+        background: rgba(125, 125, 125, 0);
+    }
+    100% {
+        background: rgba(125, 125, 125, 0.15);
+    }
 }

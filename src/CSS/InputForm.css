@@ -1,0 +1,21 @@
+
+#text-field-radio-group-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: center;
+}
+
+#submission-button {
+    font-family: Inter, sans-serif;
+    font-size: 1rem;
+    height: 35px;
+    padding: 5px 20px;
+    color: var(--primary-colour);
+    background: var(--secondary-colour);
+    border: 1px solid var(--border-colour);
+
+    cursor: pointer;
+
+    transition: all 0.1s ease;
+}

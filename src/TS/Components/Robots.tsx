@@ -32,7 +32,6 @@ export function RobotsDisplay(props: {
     let partialComments: Comment[] = [];
     const [isReady, setIsReady] = useState(false);
 
-
     /**
      * This will run as soon as the robots.txt and both example files
      * are ready to be used.
@@ -47,7 +46,6 @@ export function RobotsDisplay(props: {
      */
     useEffect(() => {
         if (!!robots && !!goodExample && !!badExample) {
-
             robotsArray.forEach((line, lineIndex) => {
                 if (line !== '') {
                     /**
@@ -99,9 +97,10 @@ export function RobotsDisplay(props: {
                     setAllComments(partialComments);
                 }
             });
-
             setIsReady(true);
-
+        }else {
+            setIsReady(false);
+            setAllComments(undefined as unknown as Comment[]);
         }
     }, [robots, goodExample, badExample]);
 
@@ -160,19 +159,27 @@ export function RobotsDisplay(props: {
     }
 
     return (
-        isReady ?
-            <div className={'robots-wrapper'}>
-                <ol className={'robots-list'}>
-                    {robotsArray.map((line, index) => {
-                        return getFormattedLine(line, index);
-                    })
-                    }
-                </ol>
-                <RobotsSummary robotsArray={robotsArray} warnings={warnings}
-                               errors={errors}/>
-            </div>
-            :
-            <></>
+        <div className={'robots-wrapper'}>
+            {isReady ?
+                <>
+                    <ol className={'robots-list'}>
+                        {robotsArray.map((line, index) => {
+                            return getFormattedLine(line, index);
+                        })
+                        }
+                    </ol>
+                    <RobotsSummary robotsArray={robotsArray} warnings={warnings}
+                                   errors={errors}/>
+                </>
+                :
+                window.location.search &&
+                <>
+                    <div className={'placeholder'} style={{height: '500px', width: '750px'}} />
+                    <div className={'placeholder'} style={{height: '85px', width: '300px', flexGrow: 1}} />
+                </>
+            }
+
+        </div>
     )
 }
 
@@ -197,7 +204,7 @@ const RobotsSummary = (props: {
                 <button className={'inline-button'}
                         onClick={() => setExpanded(state => !state)}>{expanded ? 'Show less' : 'Show more'}</button>
             </div>
-            {errors.length > 0 &&
+            {expanded && errors.length > 0 &&
                 <>
                     <div className={'collapsed-summary'}>
                         <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
@@ -222,7 +229,7 @@ const RobotsSummary = (props: {
                     </ul>
                 </>
             }
-            {warnings.length > 0 &&
+            {expanded && warnings.length > 0 &&
                 <>
                     <div className={'collapsed-summary'}>
                         <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
