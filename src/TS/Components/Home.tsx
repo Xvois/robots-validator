@@ -18,10 +18,6 @@ function Home() {
 
     return (
         <>
-            <div id={'header-wrapper'}>
-                <h1>Robots.txt validator</h1>
-                <p>Check a public site's robots.txt file against preconfigured best practices.</p>
-            </div>
             <InputForm {...{userAgents, platforms, setRobots, setGoodExample, setBadExample}} />
             <RobotsDisplay {...{robots, goodExample, badExample}}/>
         </>

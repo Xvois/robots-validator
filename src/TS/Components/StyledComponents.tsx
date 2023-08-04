@@ -34,12 +34,12 @@ export const StyledTextField = styled(TextField)({
     },
     '& label.Mui-focused': {
         color: 'var(--primary-colour)',
-        fontFamily: 'Inter Tight, sans-serif',
+        fontFamily: '"Open Sans", sans-serif',
     },
     '& .MuiFormLabel-root': {
         color: 'var(--primary-colour)',
         marginLeft: `5px`,
-        fontFamily: 'Inter Tight, sans-serif',
+        fontFamily: '"Open Sans", sans-serif',
     },
 });
 

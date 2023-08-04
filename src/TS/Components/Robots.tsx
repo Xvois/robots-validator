@@ -98,7 +98,7 @@ export function RobotsDisplay(props: {
                 }
             });
             setIsReady(true);
-        }else {
+        } else {
             setIsReady(false);
             setAllComments(undefined as unknown as Comment[]);
         }
@@ -162,20 +162,39 @@ export function RobotsDisplay(props: {
         <div className={'robots-wrapper'}>
             {isReady ?
                 <>
-                    <ol className={'robots-list'}>
-                        {robotsArray.map((line, index) => {
-                            return getFormattedLine(line, index);
-                        })
-                        }
-                    </ol>
-                    <RobotsSummary robotsArray={robotsArray} warnings={warnings}
-                                   errors={errors}/>
+                    <div>
+                        <div className={'robots-outline'}>
+                            <div style={{display: 'inline-flex', alignItems: 'center', gap: '5px'}}>
+                                <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
+                                <p style={{margin: '5px 0'}}>
+                                    {errors.length} error{errors.length !== 1 && 's'}
+                                </p>
+                            </div>
+                            <div style={{display: 'inline-flex', alignItems: 'center', gap: '5px'}}>
+
+                                <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
+                                <p style={{margin: '5px 0'}}>
+                                    {warnings.length} warning{warnings.length !== 1 && 's'}
+                                </p>
+                            </div>
+                        </div>
+                        <div className={'robots-list-wrapper'}>
+                            <ol className={'robots-list'}>
+                                {robotsArray.map((line, index) => {
+                                    return getFormattedLine(line, index);
+                                })
+                                }
+                            </ol>
+                        </div>
+                    </div>
+                    <RobotsDetails robotsArray={robotsArray} warnings={warnings} errors={errors}/>
                 </>
+
                 :
                 window.location.search &&
                 <>
-                    <div className={'placeholder'} style={{height: '500px', width: '750px'}} />
-                    <div className={'placeholder'} style={{height: '85px', width: '300px', flexGrow: 1}} />
+                    <div className={'placeholder'} style={{height: '825px', width: '782px'}}/>
+                    <div className={'placeholder'} style={{height: '825px', width: '632.5px'}}/>
                 </>
             }
 
@@ -183,32 +202,19 @@ export function RobotsDisplay(props: {
     )
 }
 
-const RobotsSummary = (props: {
+const RobotsDetails = (props: {
     robotsArray: string[],
     warnings: Comment[],
     errors: Comment[]
 }) => {
     const {robotsArray, warnings, errors} = props;
-    const [expanded, setExpanded] = useState(false);
     return (
-        <div className={'robots-summary' + (expanded ? ' summary-expanded' : '')}>
-            <div className={'collapsed-summary'}>
-                <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
-                <p>
-                    {errors.length} error{errors.length !== 1 && 's'}
-                </p>
-                <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
-                <p>
-                    {warnings.length} warning{warnings.length !== 1 && 's'}
-                </p>
-                <button className={'inline-button'}
-                        onClick={() => setExpanded(state => !state)}>{expanded ? 'Show less' : 'Show more'}</button>
-            </div>
-            {expanded && errors.length > 0 &&
+        <div className={'robots-details'}>
+            {errors.length > 0 &&
                 <>
-                    <div className={'collapsed-summary'}>
+                    <div style={{display: 'inline-flex', alignItems: 'center', gap: '10px'}}>
                         <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
-                        <h3>Errors</h3>
+                        <h3 style={{margin: '5px 0'}}>Errors</h3>
                     </div>
                     <ul>
                         {errors.sort((a, b) => a.index - b.index).map(comment => {
@@ -229,11 +235,11 @@ const RobotsSummary = (props: {
                     </ul>
                 </>
             }
-            {expanded && warnings.length > 0 &&
+            {warnings.length > 0 &&
                 <>
-                    <div className={'collapsed-summary'}>
+                    <div style={{display: 'inline-flex', alignItems: 'center', gap: '10px'}}>
                         <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
-                        <h3>Warnings</h3>
+                        <h3 style={{margin: '5px 0'}}>Warnings</h3>
                     </div>
                     <ul>
                         {warnings.sort((a, b) => a.index - b.index).map(comment => {

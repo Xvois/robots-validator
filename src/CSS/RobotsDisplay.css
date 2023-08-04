@@ -3,7 +3,26 @@
     flex-direction: row;
     flex-wrap: wrap;
 
-    gap: 10px;
+    gap: 15px;
+    padding: 15px;
+
+    justify-content: center;
+    align-items: start;
+}
+
+.robots-outline {
+    display: flex;
+    align-items: center;
+
+    flex-grow: 1;
+
+    padding: 5px 15px;
+    gap: 15px;
+
+    background: var(--secondary-colour);
+    border: 1px solid var(--border-colour);
+    border-bottom: none;
+
 }
 
 .robots-list {
@@ -11,8 +30,10 @@
     font-size: 1em;
     margin: 0;
     padding: 15px;
-    height: max-content;
-    max-width: 750px;
+    width: 750px;
+    max-height: 750px;
+    overflow-y: scroll;
+    overflow-x: scroll;
 
     background: var(--secondary-colour);
     border: 1px solid var(--border-colour);
@@ -23,8 +44,9 @@
 }
 
 .robots-line-wrapper {
+    display: flex;
+    align-items: center;
     position: relative;
-
     list-style-type: none;
     padding: 0;
     counter-increment: item;
@@ -47,7 +69,8 @@
 
 
 .robots-line-wrapper:target {
-    border: 1px solid var(--primary-colour);
+    font-weight: bold;
+    border: 1px solid var(--transparent-border-colour);
 }
 
 .robots-line-wrapper > p {

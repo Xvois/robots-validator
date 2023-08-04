@@ -1,22 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
 body {
-    font-family: Inter, sans-serif;
-    margin: 15px;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
 
-    --bg-colour: #272727;
-    --primary-colour: #EEF0F2;
-    --secondary-colour: rgba(125, 125, 125, 0.15);
+
+    --bg-colour: #05080a;
+    --primary-colour: whitesmoke;
+    --secondary-colour: #28282f;
+    --tertiary-colour: #30303a;
+    --accent-colour: #d5872d;
     --border-colour: rgba(125, 125, 125, 0.25);
-    --accent-colour: #fca311;
+    --transparent-colour: rgba(125, 125, 125, 0.1);
+    --transparent-border-colour: rgba(125, 125, 125, 0.2);
 
     --error-colour: #F87060;
     --error-colour-with-opacity: #F8706075;
     --warning-colour: #F3A712;
     --warning-colour-with-opacity: #F3A71275;
 
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
@@ -31,7 +33,7 @@ code {
 }
 
 .inline-button {
-    font-family: Inter, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     text-decoration: underline;
     cursor: pointer;
     color: var(--primary-colour);

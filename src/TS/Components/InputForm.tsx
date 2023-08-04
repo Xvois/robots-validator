@@ -94,7 +94,7 @@ export function InputForm(
     };
 
     return (
-        <div style={{display: 'flex', flexDirection: 'row', gap: '20px', margin: '20px 0'}}>
+        <div id={'input-form-wrapper'}>
             <form onSubmit={handleSubmit}>
                 <FormControl sx={{display: 'flex', flexDirection: 'column'}}>
                     <div id={'text-field-radio-group-wrapper'}>
@@ -125,6 +125,7 @@ export function InputForm(
                                     control={<StyledRadio/>}
                                     value={platform}
                                     label={platform}
+                                    sx={{fontFamily: '"Open Sans", sans-serif', margin: 0}}
                                 />
                             )
                         })}
