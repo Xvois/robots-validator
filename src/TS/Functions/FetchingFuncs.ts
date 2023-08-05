@@ -46,7 +46,7 @@ export const fetchRobots = (() => {
     const axiosConfig = {
       signal: signal,
       cancelToken: source.token,
-      timeout: 1000
+      timeout: 5000
     };
 
     try {
