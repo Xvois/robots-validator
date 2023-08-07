@@ -48,10 +48,10 @@ export function InputForm(
 
     useEffect(() => {
         if (url) {
+            setFetchError(undefined as unknown as AxiosError);
             fetchRobots(new URL(url))
                 .then((res) => {
                     setRobots(res);
-                    setFetchError(undefined as unknown as AxiosError);
                 })
                 .catch((err) => {
                     setFetchError(err);
@@ -73,13 +73,13 @@ export function InputForm(
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-
         if (urlIsValid(url)) {
             setRobots(undefined as unknown as string);
+            setFetchError(undefined as unknown as AxiosError);
+
             fetchRobots(new URL(url))
                 .then((res) => {
                     setRobots(res);
-                    setFetchError(undefined as unknown as AxiosError);
                 })
                 .catch((err) => {
                     setFetchError(err);
@@ -125,7 +125,7 @@ export function InputForm(
                                     control={<StyledRadio/>}
                                     value={platform}
                                     label={platform}
-                                    sx={{fontFamily: '"Open Sans", sans-serif', margin: 0}}
+                                    sx={{fontFamily: '"Poppins", sans-serif', margin: 0}}
                                 />
                             )
                         })}

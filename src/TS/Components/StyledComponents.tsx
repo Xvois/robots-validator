@@ -1,7 +1,6 @@
 import {Radio, RadioProps, styled, TextField} from "@mui/material";
 
 
-
 export const StyledTextField = styled(TextField)({
     "& .MuiInputBase-root": {
         background: 'var(--secondary-colour)',
@@ -34,59 +33,59 @@ export const StyledTextField = styled(TextField)({
     },
     '& label.Mui-focused': {
         color: 'var(--primary-colour)',
-        fontFamily: '"Open Sans", sans-serif',
+        fontFamily: '"Poppins", sans-serif',
     },
     '& .MuiFormLabel-root': {
         color: 'var(--primary-colour)',
         marginLeft: `5px`,
-        fontFamily: '"Open Sans", sans-serif',
+        fontFamily: '"Poppins", sans-serif',
     },
 });
 
 
-
 const StyledRadioIcon = styled('span')(({}) => ({
-  borderRadius: '50%',
-  width: 16,
-  height: 16,
-  boxShadow: '0 0 0 1px var(--bg-colour)',
-  backgroundColor: 'var(--secondary-colour)',
-  backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))',
-  '.Mui-focusVisible &': {
-    outline: '2px auto rgba(19,124,189,.6)',
-    outlineOffset: 2,
-  },
-  'input:hover ~ &': {
-    backgroundColor: 'var(--border-colour)'
-  },
-  'input:disabled ~ &': {
-    boxShadow: 'none',
-    background: 'rgba(57,75,89,.5)'
-  },
+    borderRadius: '50%',
+    width: 16,
+    height: 16,
+    boxShadow: '0 0 0 1px var(--bg-colour)',
+    backgroundColor: 'var(--secondary-colour)',
+    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))',
+    '.Mui-focusVisible &': {
+        outline: '2px auto rgba(19,124,189,.6)',
+        outlineOffset: 2,
+    },
+    'input:hover ~ &': {
+        backgroundColor: 'var(--border-colour)'
+    },
+    'input:disabled ~ &': {
+        boxShadow: 'none',
+        background: 'rgba(57,75,89,.5)'
+    },
 }));
 
 const StyledCheckRadioIcon = styled(StyledRadioIcon)({
-  backgroundColor: 'var(--accent-colour)',
-  backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
-  '&:before': {
-    display: 'block',
-    width: 16,
-    height: 16,
-    backgroundImage: 'radial-gradient(#fff,#fff 28%,transparent 32%)',
-    content: '""',
-  },
-  'input:hover ~ &': {
     backgroundColor: 'var(--accent-colour)',
-  },
+    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
+    '&:before': {
+        display: 'block',
+        width: 16,
+        height: 16,
+        backgroundImage: 'radial-gradient(#fff,#fff 28%,transparent 32%)',
+        content: '""',
+    },
+    'input:hover ~ &': {
+        backgroundColor: 'var(--accent-colour)',
+    },
 });
+
 export function StyledRadio(props: RadioProps) {
-  return (
-    <Radio
-      disableRipple
-      color="default"
-      checkedIcon={<StyledCheckRadioIcon />}
-      icon={<StyledRadioIcon />}
-      {...props}
-    />
-  );
+    return (
+        <Radio
+            disableRipple
+            color="default"
+            checkedIcon={<StyledCheckRadioIcon/>}
+            icon={<StyledRadioIcon/>}
+            {...props}
+        />
+    );
 }

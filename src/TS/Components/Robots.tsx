@@ -144,7 +144,7 @@ export function RobotsDisplay(props: {
                             {line}
                         </code>
                         {icon &&
-                            <Tooltip disableFocusListener title={comment.messageElement} arrow placement={"right"}>
+                            <Tooltip title={comment.messageElement} arrow placement={"right"}>
                                 {icon}
                             </Tooltip>
                         }
@@ -162,19 +162,19 @@ export function RobotsDisplay(props: {
         <div className={'robots-wrapper'}>
             {isReady ?
                 <>
-                    <div>
+                    <div className={"outline-wrapper"}>
                         <div className={'robots-outline'}>
                             <div style={{display: 'inline-flex', alignItems: 'center', gap: '5px'}}>
                                 <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
                                 <p style={{margin: '5px 0'}}>
-                                    {errors.length} error{errors.length !== 1 && 's'}
+                                    <strong>{errors.length}</strong> error{errors.length !== 1 && 's'}
                                 </p>
                             </div>
                             <div style={{display: 'inline-flex', alignItems: 'center', gap: '5px'}}>
 
                                 <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
                                 <p style={{margin: '5px 0'}}>
-                                    {warnings.length} warning{warnings.length !== 1 && 's'}
+                                    <strong>{warnings.length}</strong> warning{warnings.length !== 1 && 's'}
                                 </p>
                             </div>
                         </div>

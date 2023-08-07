@@ -38,11 +38,10 @@
 
     background: var(--transparent-colour);
     border: 1px solid var(--transparent-border-colour);
-    border-radius: 20px;
 
     transition: all 0.2s ease;
 }
 
 .top-bar-anchor:hover {
-    background: var(--secondary-colour);
+    background: var(--accent-colour);
 }

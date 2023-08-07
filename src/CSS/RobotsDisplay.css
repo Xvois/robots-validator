@@ -10,11 +10,13 @@
     align-items: start;
 }
 
+.outline-wrapper {
+    flex-grow: 1;
+}
+
 .robots-outline {
     display: flex;
     align-items: center;
-
-    flex-grow: 1;
 
     padding: 5px 15px;
     gap: 15px;
@@ -30,7 +32,6 @@
     font-size: 1em;
     margin: 0;
     padding: 15px;
-    max-width: 750px;
     max-height: 750px;
     overflow-y: scroll;
     overflow-x: scroll;

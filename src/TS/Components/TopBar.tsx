@@ -8,6 +8,7 @@ function TopBar () {
             </div>
             <div className={'top-bar-anchors-wrapper'}>
                 <a className={'top-bar-anchor'} href={'https://github.com/Xvois/robots-validator'}><GitHubIcon fontSize={'small'} />Github</a>
+                <a className={'top-bar-anchor'} href={'https://www.example.com/'}>Example</a>
             </div>
         </div>
     )

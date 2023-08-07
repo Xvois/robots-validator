@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
 
 
-    --bg-colour: #05080a;
+    --bg-colour: #212529;
     --primary-colour: whitesmoke;
-    --secondary-colour: #28282f;
-    --tertiary-colour: #30303a;
-    --accent-colour: #d5872d;
+    --secondary-colour: #343a40;
+    --tertiary-colour: #495057;
+    --accent-colour: #457b9d;
     --border-colour: rgba(125, 125, 125, 0.25);
     --transparent-colour: rgba(125, 125, 125, 0.1);
     --transparent-border-colour: rgba(125, 125, 125, 0.2);
@@ -33,7 +33,7 @@ code {
 }
 
 .inline-button {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Poppins', sans-serif;
     text-decoration: underline;
     cursor: pointer;
     color: var(--primary-colour);
