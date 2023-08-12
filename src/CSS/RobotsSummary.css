@@ -1,6 +1,7 @@
 .robots-details {
     margin: 0;
     padding: 15px;
+    flex-grow: 1;
     width: 600px;
     height: max-content;
     max-height: 793px;

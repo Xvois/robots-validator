@@ -25,6 +25,7 @@ export function RobotsDisplay(props: {
     const [allComments, setAllComments] = useState(undefined as unknown as Comment[]);
     const errors = allComments?.filter(c => c.type === "ERROR");
     const warnings = allComments?.filter(c => c.type === "WARNING");
+    const infos = allComments?.filter(c => c.type === "INFO");
     /**
      * We don't want to rerender until all comments
      * are submitted, so we fill partial comments first.
@@ -187,13 +188,13 @@ export function RobotsDisplay(props: {
                             </ol>
                         </div>
                     </div>
-                    <RobotsDetails robotsArray={robotsArray} warnings={warnings} errors={errors}/>
+                    <RobotsDetails robotsArray={robotsArray} infos={infos} warnings={warnings} errors={errors}/>
                 </>
 
                 :
                 window.location.search &&
                 <>
-                    <div className={'placeholder'} style={{height: '825px', width: '782px'}}/>
+                    <div className={'placeholder'} style={{height: '825px', width: '782px', flexGrow: 1}}/>
                     <div className={'placeholder'} style={{height: '825px', width: '632.5px'}}/>
                 </>
             }
@@ -204,10 +205,11 @@ export function RobotsDisplay(props: {
 
 const RobotsDetails = (props: {
     robotsArray: string[],
+    infos: Comment[],
     warnings: Comment[],
     errors: Comment[]
 }) => {
-    const {robotsArray, warnings, errors} = props;
+    const {robotsArray,infos, warnings, errors} = props;
     return (
         <div className={'robots-details'}>
             {errors.length > 0 &&
@@ -262,6 +264,33 @@ const RobotsDetails = (props: {
                     </ul>
                 </>
             }
+            {infos.length > 0 &&
+                <>
+                    <div style={{display: 'inline-flex', alignItems: 'center', gap: '10px'}}>
+                        <InfoOutlinedIcon sx={{color: 'var(--primary-colour)'}} fontSize={'small'}/>
+                        <h3 style={{margin: '5px 0'}}>Info</h3>
+                    </div>
+                    <ul>
+                        {infos.sort((a, b) => a.index - b.index).map(comment => {
+                            return (
+                                <li className={'summary-li-instance'}>
+                                    {comment.index > -1 &&
+                                        <code style={{fontWeight: 'bold'}}>
+                                            {robotsArray[comment.index]}
+                                        </code>
+                                    }
+                                    {comment.messageElement}
+                                    {comment.index > -1 &&
+                                        <a style={{color: 'var(--primary-colour)'}} href={`#${comment.index}`}>
+                                            Line {comment.index + 1}
+                                        </a>
+                                    }
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </>
+    }
         </div>
     )
 }
