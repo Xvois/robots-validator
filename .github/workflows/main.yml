@@ -25,15 +25,11 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to FTP
-        uses: "actions/checkout@v2"
-        with:
-          repository: Xvois/robots-validator
       - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: build/
+          local-dir: build
           remote-dir: /build
