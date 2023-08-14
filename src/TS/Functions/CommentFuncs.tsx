@@ -78,7 +78,7 @@ export const getMissingLineComments = (inputArray: string[], matchArray: string[
                 necessaryBlock = false;
             } else {
                 if (!inputArray.some(providedLine => providedLine === matchLine)) {
-                    const {type, message} = extractTypeAndMessage(matchArray[blockCommentIndex]);
+                    const {message} = extractTypeAndMessage(matchArray[blockCommentIndex]);
                     warnings.push({
                         type: "WARNING",
                         messageElement: <p><strong>Missing line:</strong> <code>{matchLine}</code> <br/> {message}</p>,

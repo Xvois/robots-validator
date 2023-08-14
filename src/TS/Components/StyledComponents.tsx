@@ -43,7 +43,7 @@ export const StyledTextField = styled(TextField)({
 });
 
 
-const StyledRadioIcon = styled('span')(({}) => ({
+const StyledRadioIcon = styled('span')(() => ({
     borderRadius: '50%',
     width: 16,
     height: 16,

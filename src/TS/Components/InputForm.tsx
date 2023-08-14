@@ -18,12 +18,6 @@ export const urlIsValid = (url: string) => {
     return !!match;
 }
 
-interface UserAgent {
-    pattern: string,
-    url?: string,
-    instances: string[]
-}
-
 /**
  * This component deals with taking the user inputs for the robots file
  * and will modify the state of the parent robots and examples files
@@ -34,13 +28,12 @@ interface UserAgent {
 export function InputForm(
     props:
         {
-            userAgents: UserAgent[],
             platforms: string[],
             setRobots: React.Dispatch<SetStateAction<string>>,
             setGoodExample: React.Dispatch<SetStateAction<string>>,
             setBadExample: React.Dispatch<SetStateAction<string>>,
         }) {
-    const {userAgents, platforms, setRobots, setGoodExample, setBadExample} = props;
+    const {platforms, setRobots, setGoodExample, setBadExample} = props;
     const urlParams = new URLSearchParams(window.location.search);
     const [selectedPlatform, setSelectedPlatform] = useState(urlParams.get('platform') || platforms[0]);
     const [url, setURL] = useState(urlParams.get('target-url') || '');
@@ -58,7 +51,7 @@ export function InputForm(
                     console.warn(err)
                 });
         }
-    }, []);
+    }, [setRobots, url]);
 
     useEffect(() => {
 
@@ -68,7 +61,7 @@ export function InputForm(
             }
         );
 
-    }, [selectedPlatform]);
+    }, [selectedPlatform, setGoodExample, setBadExample]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();

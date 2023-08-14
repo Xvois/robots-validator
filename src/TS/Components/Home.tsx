@@ -3,7 +3,6 @@ import '../../CSS/Home.css';
 import React, {useState} from "react";
 import {RobotsDisplay} from "./Robots";
 import {InputForm} from "./InputForm";
-import userAgents from "../../user-agents.json";
 function Home() {
 
     // Fetched robots file as string.
@@ -18,7 +17,7 @@ function Home() {
 
     return (
         <>
-            <InputForm {...{userAgents, platforms, setRobots, setGoodExample, setBadExample}} />
+            <InputForm {...{platforms, setRobots, setGoodExample, setBadExample}} />
             <RobotsDisplay {...{robots, goodExample, badExample}}/>
         </>
     )
