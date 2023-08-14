@@ -56,15 +56,18 @@ export function InputForm(
 
     useEffect(() => {
         if (url) {
-            setFetchError(undefined as unknown as AxiosError);
-            fetchRobots(new URL(url))
-                .then((res) => {
-                    setRobots(res);
-                })
-                .catch((err) => {
-                    setFetchError(err);
-                    console.warn(err)
-                });
+            const urlObject = parseURL(url);
+            if (urlObject) {
+                setFetchError(undefined as unknown as AxiosError);
+                fetchRobots(urlObject)
+                    .then((res) => {
+                        setRobots(res);
+                    })
+                    .catch((err) => {
+                        setFetchError(err);
+                        console.warn(err)
+                    });
+            }
         }
     }, []);
 
