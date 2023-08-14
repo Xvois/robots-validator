@@ -1,4 +1,6 @@
 .robots-details {
+    display: grid;
+    gap: 20px;
     margin: 0;
     padding: 15px;
     flex-grow: 1;
@@ -7,12 +9,17 @@
     max-height: 793px;
     overflow-y: scroll;
     overflow-x: scroll;
-    background: var(--secondary-colour);
+    background: var(--transparent-colour);
     border: 1px solid var(--border-colour);
 }
 
-.summary-li-instance {
+.details-instance {
+    padding: 15px;
+    background: var(--transparent-colour);
+    border: 1px solid var(--transparent-border-colour);
+}
 
+.summary-li-instance {
 }
 
 .summary-li-instance > p {

@@ -6,6 +6,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 import WarningIcon from "@mui/icons-material/Warning"
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {Comment, extractTypeAndMessage, getMissingLineComments, getRegexMatchComments} from "../Functions/CommentFuncs";
+import CommentListItem from "./CommentListitem";
 
 export function RobotsDisplay(props: {
     robots: string
@@ -161,22 +162,22 @@ export function RobotsDisplay(props: {
 
     return (
         <div className={'robots-wrapper'}>
-            {isReady ?
+            {isReady &&
                 <>
                     <div className={"outline-wrapper"}>
                         <div className={'robots-outline'}>
                             <div style={{display: 'inline-flex', alignItems: 'center', gap: '5px'}}>
                                 <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
-                                <p style={{margin: '5px 0'}}>
+                                <code style={{margin: '5px 0'}}>
                                     <strong>{errors.length}</strong> error{errors.length !== 1 && 's'}
-                                </p>
+                                </code>
                             </div>
                             <div style={{display: 'inline-flex', alignItems: 'center', gap: '5px'}}>
 
                                 <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
-                                <p style={{margin: '5px 0'}}>
+                                <code style={{margin: '5px 0'}}>
                                     <strong>{warnings.length}</strong> warning{warnings.length !== 1 && 's'}
-                                </p>
+                                </code>
                             </div>
                         </div>
                         <div className={'robots-list-wrapper'}>
@@ -190,13 +191,6 @@ export function RobotsDisplay(props: {
                     </div>
                     <RobotsDetails robotsArray={robotsArray} infos={infos} warnings={warnings} errors={errors}/>
                 </>
-
-                :
-                window.location.search &&
-                <>
-                    <div className={'placeholder'} style={{height: '825px', width: '782px', flexGrow: 1}}/>
-                    <div className={'placeholder'} style={{height: '825px', width: '632.5px'}}/>
-                </>
             }
 
         </div>
@@ -209,88 +203,54 @@ const RobotsDetails = (props: {
     warnings: Comment[],
     errors: Comment[]
 }) => {
-    const {robotsArray,infos, warnings, errors} = props;
+    const {robotsArray, infos, warnings, errors} = props;
     return (
         <div className={'robots-details'}>
             {errors.length > 0 &&
-                <>
+                <div className={'details-instance'}>
                     <div style={{display: 'inline-flex', alignItems: 'center', gap: '10px'}}>
                         <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>
                         <h3 style={{margin: '5px 0'}}>Errors</h3>
                     </div>
                     <ul>
-                        {errors.sort((a, b) => a.index - b.index).map(comment => {
+                        {errors.sort((a, b) => a.index - b.index).map((comment, index) => {
                             return (
-                                <li className={'summary-li-instance'}>
-                                    <code style={{fontWeight: 'bold'}}>
-                                        {robotsArray[comment.index]}
-                                    </code>
-                                    {comment.messageElement}
-                                    {comment.index > -1 &&
-                                        <a style={{color: 'var(--primary-colour)'}} href={`#${comment.index}`}>
-                                            Line {comment.index + 1}
-                                        </a>
-                                    }
-                                </li>
+                                <CommentListItem key={index} comment={comment} robotsArray={robotsArray} />
                             )
                         })}
                     </ul>
-                </>
+                </div>
             }
             {warnings.length > 0 &&
-                <>
+                <div className={'details-instance'}>
                     <div style={{display: 'inline-flex', alignItems: 'center', gap: '10px'}}>
                         <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>
                         <h3 style={{margin: '5px 0'}}>Warnings</h3>
                     </div>
                     <ul>
-                        {warnings.sort((a, b) => a.index - b.index).map(comment => {
+                        {warnings.sort((a, b) => a.index - b.index).map((comment, index) => {
                             return (
-                                <li className={'summary-li-instance'}>
-                                    {comment.index > -1 &&
-                                        <code style={{fontWeight: 'bold'}}>
-                                            {robotsArray[comment.index]}
-                                        </code>
-                                    }
-                                    {comment.messageElement}
-                                    {comment.index > -1 &&
-                                        <a style={{color: 'var(--primary-colour)'}} href={`#${comment.index}`}>
-                                            Line {comment.index + 1}
-                                        </a>
-                                    }
-                                </li>
+                                <CommentListItem key={index} comment={comment} robotsArray={robotsArray} />
                             )
                         })}
                     </ul>
-                </>
+                </div>
             }
             {infos.length > 0 &&
-                <>
+                <div className={'details-instance'}>
                     <div style={{display: 'inline-flex', alignItems: 'center', gap: '10px'}}>
                         <InfoOutlinedIcon sx={{color: 'var(--primary-colour)'}} fontSize={'small'}/>
                         <h3 style={{margin: '5px 0'}}>Info</h3>
                     </div>
                     <ul>
-                        {infos.sort((a, b) => a.index - b.index).map(comment => {
+                        {infos.sort((a, b) => a.index - b.index).map((comment, index) => {
                             return (
-                                <li className={'summary-li-instance'}>
-                                    {comment.index > -1 &&
-                                        <code style={{fontWeight: 'bold'}}>
-                                            {robotsArray[comment.index]}
-                                        </code>
-                                    }
-                                    {comment.messageElement}
-                                    {comment.index > -1 &&
-                                        <a style={{color: 'var(--primary-colour)'}} href={`#${comment.index}`}>
-                                            Line {comment.index + 1}
-                                        </a>
-                                    }
-                                </li>
+                                <CommentListItem key={index} comment={comment} robotsArray={robotsArray} />
                             )
                         })}
                     </ul>
-                </>
-    }
+                </div>
+            }
         </div>
     )
 }

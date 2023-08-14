@@ -73,6 +73,11 @@ export function InputForm(
             fetchRobots(new URL(url))
                 .then((res) => {
                     setRobots(res);
+
+                    if(res.includes("we use Shopify as our ecommerce platform")){
+                        setSelectedPlatform("Shopify")
+                    }
+
                 })
                 .catch((err) => {
                     setFetchError(err);

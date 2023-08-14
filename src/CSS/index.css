@@ -5,11 +5,11 @@ body {
     margin: 0;
 
 
-    --bg-colour: #212529;
+    --bg-colour: #110E09;
     --primary-colour: whitesmoke;
-    --secondary-colour: #343a40;
+    --secondary-colour: #1f1f1f;
+    --accent-colour: rgba(125, 125, 125, 0.5);
     --tertiary-colour: #495057;
-    --accent-colour: #457b9d;
     --border-colour: rgba(125, 125, 125, 0.25);
     --transparent-colour: rgba(125, 125, 125, 0.1);
     --transparent-border-colour: rgba(125, 125, 125, 0.2);
