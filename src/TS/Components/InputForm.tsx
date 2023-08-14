@@ -51,7 +51,7 @@ export function InputForm(
                     console.warn(err)
                 });
         }
-    }, [setRobots, url]);
+    }, []);
 
     useEffect(() => {
 
@@ -61,7 +61,7 @@ export function InputForm(
             }
         );
 
-    }, [selectedPlatform, setGoodExample, setBadExample]);
+    }, [selectedPlatform]);
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();

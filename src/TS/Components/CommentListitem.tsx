@@ -12,7 +12,7 @@ const CommentListItem: React.FC<CommentListItemProps> = ({comment, robotsArray})
     return (
         <li className="summary-li-instance">
             {comment.index > -1 && (
-                <a style={{color: 'var(--primary-colour)'}} href={`#${comment.index}`}>
+                <a style={{color: 'var(--primary-colour)', marginRight: '5px'}} href={`#${comment.index}`}>
                     Line {comment.index + 1}
                 </a>
             )}

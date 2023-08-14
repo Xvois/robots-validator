@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect, useRef, useState} from "react";
+import React, {ReactElement, useEffect, useState} from "react";
 import "../../CSS/RobotsSummary.css"
 import "../../CSS/RobotsDisplay.css"
 import {Tooltip} from "@mui/material";
@@ -31,7 +31,7 @@ export function RobotsDisplay(props: {
      * We don't want to rerender until all comments
      * are submitted, so we fill partial comments first.
      */
-    let partialComments = useRef([] as Comment[]);
+    let partialComments: Comment[] = [];
     const [isReady, setIsReady] = useState(false);
 
     /**
@@ -81,7 +81,7 @@ export function RobotsDisplay(props: {
                                     index: lineIndex
                                 };
 
-                                partialComments.current.push(comment);
+                                partialComments.push(comment);
                             }
 
                         }
@@ -90,13 +90,13 @@ export function RobotsDisplay(props: {
                 // If we are at the end of the file then search for what we missed.
                 if (lineIndex === robotsArray?.length - 1) {
                     const missingLineComments = getMissingLineComments(robotsArray, goodExampleArray);
-                    partialComments.current = partialComments.current.concat(missingLineComments);
+                    partialComments = partialComments.concat(missingLineComments);
 
                     const regexComments = getRegexMatchComments(robotsArray, badExampleArray);
-                    partialComments.current = partialComments.current.concat(regexComments);
+                    partialComments = partialComments.concat(regexComments);
 
                     // Comments can now be state controlled.
-                    setAllComments(partialComments.current);
+                    setAllComments(partialComments);
                 }
             });
             setIsReady(true);
@@ -104,7 +104,7 @@ export function RobotsDisplay(props: {
             setIsReady(false);
             setAllComments(undefined as unknown as Comment[]);
         }
-    }, [robots, goodExample, badExample, badExampleArray, goodExampleArray, robotsArray]);
+    }, [robots, goodExample, badExample]);
 
 
     /**
