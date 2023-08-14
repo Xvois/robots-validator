@@ -6,10 +6,10 @@
     flex-grow: 1;
     width: 600px;
     height: max-content;
-    max-height: 793px;
+    max-height: 791px;
     overflow-y: scroll;
     overflow-x: scroll;
-    background: var(--transparent-colour);
+    background: var(--secondary-colour);
     border: 1px solid var(--border-colour);
 }
 

@@ -17,13 +17,10 @@ function Home() {
     const [badExample, setBadExample] = useState(undefined as unknown as string);
 
     return (
-        <>
-            <script async
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6120053533447626"
-                    crossOrigin="anonymous"></script>
+        <div id={'content-wrapper'}>
             <InputForm {...{platforms, setRobots, setGoodExample, setBadExample}} />
             <RobotsDisplay {...{robots, goodExample, badExample}}/>
-        </>
+        </div>
     )
 }
 

@@ -13,7 +13,7 @@
 .outline-wrapper {
     width: 500px;
     flex-grow: 1;
-    background: var(--transparent-colour);
+    background: var(--secondary-colour);
 }
 
 .robots-outline {
