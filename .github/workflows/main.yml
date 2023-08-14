@@ -33,3 +33,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: build/
           remote-dir: /build
+          protocol: ftp  # Explicitly specify FTP protocol (optional)
+          port: 21       # Explicitly specify FTP port (optional)
