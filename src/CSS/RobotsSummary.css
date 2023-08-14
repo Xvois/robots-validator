@@ -14,9 +14,6 @@
 }
 
 .details-instance {
-    padding: 15px;
-    background: var(--transparent-colour);
-    border: 1px solid var(--transparent-border-colour);
 }
 
 .summary-li-instance {
