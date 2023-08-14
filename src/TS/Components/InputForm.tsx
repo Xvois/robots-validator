@@ -13,10 +13,25 @@ import "../../CSS/InputForm.css"
  * @returns boolean
  */
 export const urlIsValid = (url: string) => {
-    const regex = "^(http(s):\\/\\/.)[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&\\/\\/=]*)$";
+    const regex = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
     const match = url?.match(regex);
     return !!match;
 }
+
+function parseURL(inputURL: string): URL | null {
+    try {
+        // Add "http://" if the input doesn't start with any protocol
+        if (!/^https?:\/\//i.test(inputURL)) {
+            inputURL = "https://" + inputURL;
+        }
+
+        return new URL(inputURL);
+    } catch (error) {
+        console.error("Invalid URL:", error);
+        return null;
+    }
+}
+
 
 /**
  * This component deals with taking the user inputs for the robots file
@@ -66,29 +81,31 @@ export function InputForm(
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
-        if (urlIsValid(url)) {
+        const urlObject = parseURL(url);
+
+        if (urlObject) {
             setRobots(undefined as unknown as string);
             setFetchError(undefined as unknown as AxiosError);
 
-            fetchRobots(new URL(url))
+            fetchRobots(urlObject)
                 .then((res) => {
                     setRobots(res);
 
-                    if(res.includes("we use Shopify as our ecommerce platform")){
-                        setSelectedPlatform("Shopify")
+                    if (res.includes("we use Shopify as our ecommerce platform")) {
+                        setSelectedPlatform("Shopify");
                     }
-
                 })
                 .catch((err) => {
                     setFetchError(err);
-                    console.warn(err)
+                    console.warn(err);
                 });
 
             urlParams.set('target-url', url);
             urlParams.set('platform', selectedPlatform);
             window.history.pushState({}, '', `?${urlParams.toString()}`);
+        } else {
+            console.log("Invalid URL:", url);
         }
-
     };
 
     return (
@@ -105,8 +122,9 @@ export function InputForm(
                             error={!!fetchError}
                             defaultValue={url}
                             helperText={fetchError ? `${fetchError.name}: ${fetchError.message}` : ''}
+                            placeholder={"https://www.google.com"}
                             variant="outlined"
-                            onChange={(e) => setURL(e.target.value)}
+                            onChange={(e) => setURL(e.target.value.toLowerCase())}
                         />
                         <button id={'submission-button'} disabled={!urlIsValid(url)} type={'submit'}>Test</button>
                     </div>

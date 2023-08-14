@@ -25,5 +25,5 @@
 
 #submission-button:disabled {
     color: var(--transparent-border-colour);
-    background: var(--tertiary-colour);
+    background: var(--transparent-colour);
 }
