@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import './CSS/index.css';
-import Home from "./TS/Pages/Home";
-import TopBar from "./TS/Components/TopBar";
-import Terms from "./TS/Pages/Terms";
-import Privacy from "./TS/Pages/Privacy";
-import Footer from "./TS/Components/Footer";
+import './index.css';
+import Footer from "./ReusableComponents/Footer/Footer";
+import Privacy from "./Pages/Privacy";
+import TopBar from "./ReusableComponents/TopBar/TopBar";
+import Home from "./Pages/Home";
+import Terms from "./Pages/Terms";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
