@@ -1,8 +1,9 @@
 import '../../CSS/index.css';
 import '../../CSS/Home.css';
 import React, {useState} from "react";
-import {RobotsDisplay} from "./Robots";
-import {InputForm} from "./InputForm";
+import {RobotsDisplay} from "../Components/Robots";
+import {InputForm} from "../Components/InputForm";
+import BottomBar from "../Components/BottomBar";
 
 function Home() {
 
@@ -17,9 +18,12 @@ function Home() {
     const [badExample, setBadExample] = useState(undefined as unknown as string);
 
     return (
-        <div id={'content-wrapper'}>
-            <InputForm {...{platforms, setRobots, setGoodExample, setBadExample}} />
-            <RobotsDisplay {...{robots, goodExample, badExample}}/>
+        <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column', flex: '1'}}>
+            <div>
+                <InputForm {...{platforms, setRobots, setGoodExample, setBadExample}} />
+                <RobotsDisplay {...{robots, goodExample, badExample}}/>
+            </div>
+            <BottomBar />
         </div>
     )
 }

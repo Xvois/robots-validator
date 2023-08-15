@@ -40,6 +40,8 @@ code {
 }
 
 #content-wrapper {
+    display: flex;
+    position: relative;
     flex: 1;
 }
 
