@@ -6,6 +6,7 @@ import Home from "./TS/Pages/Home";
 import TopBar from "./TS/Components/TopBar";
 import Terms from "./TS/Pages/Terms";
 import Privacy from "./TS/Pages/Privacy";
+import Footer from "./TS/Components/Footer";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -22,5 +23,6 @@ root.render(
                 </Routes>
             </BrowserRouter>
         </div>
+        <Footer />
     </React.StrictMode>
 );

@@ -8,8 +8,6 @@ function TopBar() {
             </div>
             <div id={"top-bar-anchors-wrapper"}>
                 <a href={"/"} className={"top-bar-anchor"}>Home</a>
-                <a href={"/terms"} className={"top-bar-anchor"}>Terms</a>
-                <a href={"/privacy-policy"} className={"top-bar-anchor"}>Privacy Policy</a>
             </div>
         </div>
     )

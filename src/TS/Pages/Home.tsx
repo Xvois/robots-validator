@@ -3,7 +3,7 @@ import '../../CSS/Home.css';
 import React, {useState} from "react";
 import {RobotsDisplay} from "../Components/Robots";
 import {InputForm} from "../Components/InputForm";
-import BottomBar from "../Components/BottomBar";
+import SiteDescription from "../Components/SiteDescription";
 
 function Home() {
 
@@ -23,7 +23,7 @@ function Home() {
                 <InputForm {...{platforms, setRobots, setGoodExample, setBadExample}} />
                 <RobotsDisplay {...{robots, goodExample, badExample}}/>
             </div>
-            <BottomBar />
+            <SiteDescription />
         </div>
     )
 }

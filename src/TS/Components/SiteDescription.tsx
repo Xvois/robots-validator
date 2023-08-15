@@ -1,6 +1,6 @@
-import "../../CSS/BottomBar.css"
+import "../../CSS/SiteDescription.css"
 
-function BottomBar() {
+function SiteDescription() {
     return (
         <div id={'bottom-bar-wrapper'}>
             <h2>What is a robots.txt file?</h2>
@@ -12,4 +12,4 @@ function BottomBar() {
     )
 }
 
-export default BottomBar;
+export default SiteDescription;
