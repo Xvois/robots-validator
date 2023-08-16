@@ -1,0 +1,13 @@
+
+#footer-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 15px;
+
+    border-top: 1px solid var(--border-colour);
+    background: var(--secondary-colour);
+}
+
+#footer-wrapper > a {
+    color: var(--primary-colour)
+}

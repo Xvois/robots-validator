@@ -23,6 +23,6 @@ root.render(
                 </Routes>
             </BrowserRouter>
         </div>
-        <Footer />
+        <Footer/>
     </React.StrictMode>
 );

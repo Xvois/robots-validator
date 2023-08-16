@@ -1,0 +1,19 @@
+
+#top-bar-wrapper {
+    display: inline-flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 15px;
+}
+
+#top-bar-anchors-wrapper {
+    display: inline-flex;
+    gap: 15px;
+}
+
+#top-bar-anchors-wrapper > a {
+    color: var(--muted-primary-colour);
+    text-decoration: none;
+}

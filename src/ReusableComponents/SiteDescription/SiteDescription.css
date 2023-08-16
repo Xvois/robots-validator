@@ -1,0 +1,6 @@
+#bottom-bar-wrapper {
+    padding: 15px;
+
+    background: var(--secondary-colour);
+    border-top: 1px solid var(--border-colour);
+}
