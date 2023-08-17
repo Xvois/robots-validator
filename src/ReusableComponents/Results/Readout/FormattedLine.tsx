@@ -20,15 +20,15 @@ function FormattedLine(props: {
     if (comment) {
         switch (comment.type) {
             case "ERROR":
-                const errorSx = {color: 'var(--error-colour)', fontSize: '1em', marginLeft: '5px'};
+                const errorSx = {color: 'var(--error)', fontSize: '1em', marginLeft: '5px'};
                 icon = <ErrorIcon sx={errorSx}/>
                 break;
             case "WARNING":
-                const warningSx = {color: 'var(--warning-colour)', fontSize: '1em', marginLeft: '5px'};
+                const warningSx = {color: 'var(--warning)', fontSize: '1em', marginLeft: '5px'};
                 icon = <WarningIcon sx={warningSx}/>
                 break;
             case "INFO":
-                const infoSx = {color: 'var(--primary-colour)', fontSize: '1em', marginLeft: '5px'};
+                const infoSx = {fontSize: '1em', marginLeft: '5px'};
                 icon = <InfoOutlinedIcon sx={infoSx}/>
                 break;
         }
@@ -37,7 +37,7 @@ function FormattedLine(props: {
     return (
         <li key={lineIndex} id={`${lineIndex}`}
             className={'flex items-center'}>
-            <code className={"w-3 mr-3"}>{lineIndex}</code>
+            <code className={"w-6 mr-2"}>{lineIndex}</code>
             {comment !== undefined ?
                 <>
                     <code>

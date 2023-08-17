@@ -18,8 +18,8 @@ function Home() {
     const [badExample, setBadExample] = useState(undefined as unknown as string);
 
     return (
-        <div style={{display: 'flex', justifyContent: 'space-between', flexDirection: 'column', flex: '1'}}>
-            <div>
+        <div className={"flex flex-col flex-grow justify-between"}>
+            <div className={"flex flex-col gap-5"}>
                 <InputForm {...{platforms, setRobots, setGoodExample, setBadExample}} />
                 <Results {...{robots, goodExample, badExample}}/>
             </div>

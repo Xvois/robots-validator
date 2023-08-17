@@ -13,21 +13,35 @@ function SummarySection(props: { robotsArray: string[], comments: Comment[], typ
 
     switch (type) {
         case "errors":
-            icon = <ErrorIcon sx={{color: 'var(--error-colour)'}} fontSize={'small'}/>;
+            icon = <ErrorIcon sx={{color: 'var(--error)'}} fontSize={'small'}/>;
             break;
         case "warnings":
-            icon = <WarningIcon sx={{color: 'var(--warning-colour)'}} fontSize={'small'}/>;
+            icon = <WarningIcon sx={{color: 'var(--warning)'}} fontSize={'small'}/>;
             break;
         case "infos":
-            icon = <InfoOutlinedIcon sx={{color: 'var(--primary-colour)'}} fontSize={'small'}/>;
+            icon = <InfoOutlinedIcon fontSize={'small'}/>;
             break;
     }
 
     return (
-        <AccordionItem value="item-1">
-            <AccordionTrigger>{type}</AccordionTrigger>
+        <AccordionItem value={type}>
+            <AccordionTrigger className={"capitalize"}>
+                <div className={"inline-flex items-center gap-2"}>
+                    {icon}
+                    {type}
+                </div>
+            </AccordionTrigger>
             <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
+                {comments.map(comment => {
+                    return (
+                        <div>
+                            {comment.index > -1 &&
+                                <a href={`#${comment.index}`}>Line {comment.index + 1}: </a>
+                            }
+                            {comment.messageElement}
+                        </div>
+                    )
+                })}
             </AccordionContent>
         </AccordionItem>
     )

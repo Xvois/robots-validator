@@ -4,6 +4,7 @@
  
 @layer base {
   :root {
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -31,6 +32,9 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
+
+    --error: #F87060;
+    --warning: #F3A712;
  
     --radius: 0.5rem;
   }

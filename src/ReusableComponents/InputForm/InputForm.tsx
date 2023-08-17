@@ -2,7 +2,6 @@ import React, {SetStateAction, useEffect, useState} from "react";
 import {fetchExamples, fetchRobots} from "../../Functions/FetchingFuncs";
 import {AxiosError} from "axios";
 import {Input} from "../../ShadComponents/ui/input"
-import "./InputForm.css"
 import {
     Form,
     FormControl,
@@ -101,6 +100,8 @@ export function InputForm(
 
         const urlObject = parseURL(url);
 
+        setSelectedPlatform(platform);
+
         console.log({url, platform});
 
         if (urlObject) {
@@ -121,7 +122,7 @@ export function InputForm(
                 });
 
             urlParams.set('target-url', url);
-            urlParams.set('platform', selectedPlatform);
+            urlParams.set('platform', platform);
             window.history.pushState({}, '', `?${urlParams.toString()}`);
         } else {
             console.log("Invalid URL:", url);
@@ -139,11 +140,11 @@ export function InputForm(
             url: urlParams.get('target-url') || "",
             platform: urlParams.get('platform') || undefined
         },
-
+        context: "onSubmit"
     })
 
     return (
-        <div id={'input-form-wrapper'}>
+        <div className={""}>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)}
                       className="inline-flex flex-wrap w-full justify-around items-start gap-5">
@@ -178,10 +179,8 @@ export function InputForm(
                                         </FormControl>
                                         <SelectContent>
                                             {platforms.map(platform => {
-                                                return <SelectItem value={platform}>{platform}</SelectItem>
-                                            })
-
-                                            }
+                                                return <SelectItem key={platform} value={platform}>{platform}</SelectItem>
+                                            })}
                                         </SelectContent>
                                     </Select>
                                 </FormControl>

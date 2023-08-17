@@ -5,8 +5,10 @@ import {
     getMissingLineComments,
     getRegexMatchComments
 } from "../../Functions/CommentFuncs";
-import {Readout} from "./Readout/Readout";
-import {Summary} from "./Summary/Summary";
+
+
+const Readout = React.lazy(() => import('./Readout/Readout')); // Adjust the path accordingly
+const Summary = React.lazy(() => import('./Summary/Summary')); // Adjust the path accordingly
 
 function Results(props: {
     robots: string
@@ -102,12 +104,22 @@ function Results(props: {
     }, [robots, goodExample, badExample]);
 
     return (
-        <div id={'results'}>
-            {allComments &&
+        <div className={"flex flex-col"}>
+            {allComments ?
                 <>
                     <Readout {...{robotsArray, allComments, infos, warnings, errors}} />
                     <Summary {...{robotsArray, infos, warnings, errors}} />
                 </>
+                :
+                window.location.search &&
+                <div className={"animate-pulse"}>
+                    <div className={"flex-grow h-[418px] bg-slate-100 border-2 rounded border-slate-50"}/>
+                    <div className={"my-5"}>
+                        <div className={"flex-grow h-[56px] bg-slate-100"}/>
+                        <div className={"flex-grow h-[56px] bg-slate-100"}/>
+                        <div className={"flex-grow h-[56px] bg-slate-100"}/>
+                    </div>
+                </div>
             }
         </div>
     )
