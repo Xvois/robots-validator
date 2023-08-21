@@ -81,7 +81,7 @@ export const getMissingLineComments = (inputArray: string[], matchArray: string[
                     const {message} = extractTypeAndMessage(matchArray[blockCommentIndex]);
                     warnings.push({
                         type: "WARNING",
-                        messageElement: <p><strong>Missing line:</strong> <code>{matchLine}</code> <br/> {message}</p>,
+                        messageElement: <p>`<code>{matchLine}</code>` not found. {message}</p>,
                         index: -1
                     })
                 }

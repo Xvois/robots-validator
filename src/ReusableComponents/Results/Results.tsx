@@ -108,16 +108,14 @@ function Results(props: {
             {allComments ?
                 <>
                     <Readout {...{robotsArray, allComments, infos, warnings, errors}} />
-                    <Summary {...{robotsArray, infos, warnings, errors}} />
+                    <Summary {...{infos, warnings, errors}} />
                 </>
                 :
                 window.location.search &&
                 <div className={"animate-pulse"}>
-                    <div className={"flex-grow h-[418px] bg-slate-100 border-2 rounded border-slate-50"}/>
+                    <div className={"flex-grow h-[445px] bg-slate-100 border-2 rounded border-slate-50"}/>
                     <div className={"my-5"}>
-                        <div className={"flex-grow h-[56px] bg-slate-100"}/>
-                        <div className={"flex-grow h-[56px] bg-slate-100"}/>
-                        <div className={"flex-grow h-[56px] bg-slate-100"}/>
+                        <div className={"flex-grow h-[171px] bg-slate-100"}/>
                     </div>
                 </div>
             }

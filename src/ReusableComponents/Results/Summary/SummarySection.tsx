@@ -6,8 +6,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import {AccordionContent, AccordionItem, AccordionTrigger} from "../../../ShadComponents/ui/accordion";
 
 
-function SummarySection(props: { robotsArray: string[], comments: Comment[], type: "errors" | "warnings" | "infos" }) {
-    const {robotsArray, comments, type} = props;
+function SummarySection(props: {comments: Comment[], type: "errors" | "warnings" | "infos" }) {
+    const {comments, type} = props;
 
     let icon: ReactElement | undefined;
 
@@ -32,16 +32,23 @@ function SummarySection(props: { robotsArray: string[], comments: Comment[], typ
                 </div>
             </AccordionTrigger>
             <AccordionContent>
-                {comments.map(comment => {
-                    return (
-                        <div>
-                            {comment.index > -1 &&
-                                <a href={`#${comment.index}`}>Line {comment.index + 1}: </a>
-                            }
-                            {comment.messageElement}
-                        </div>
-                    )
-                })}
+                <div className={"flex flex-col"}>
+                    {comments.map(comment => {
+                        return (
+                            <div className={"inline-flex gap-2"}>
+                                {comment.messageElement}
+                                {comment.index >= 0 ?
+                                    <a className={"text-muted-foreground"}
+                                       href={`#${comment.index}`}>(Line {comment.index + 1})</a>
+                                    :
+                                    <p className={"text-muted-foreground"}>
+                                        (Missing line)
+                                    </p>
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
             </AccordionContent>
         </AccordionItem>
     )

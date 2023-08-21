@@ -13,7 +13,7 @@ function TopBar() {
             </a>
             <div className={"inline-flex gap-5"}>
                 <a className={path === '/' ? "underline" : ""} href={"/"}>Tool</a>
-                <a className={path.includes('/about') ? "underline" : ""} href={"/about"}>About</a>
+                <a className={path.includes('/example') ? "underline" : ""} href={"/example"}>Example</a>
             </div>
         </div>
     )
