@@ -1,10 +1,9 @@
 import "./TopBar.css"
 // @ts-ignore
 import logo from "../../img/logo.png"
+import {Link} from "react-router-dom";
 
 function TopBar() {
-
-    const path = window.location.pathname;
 
     return (
         <div className={"inline-flex p-5 justify-between items-center w-full"}>
@@ -12,8 +11,8 @@ function TopBar() {
                 <img src={logo} alt={'Validator logo'} className={'h-12'} />
             </a>
             <div className={"inline-flex gap-5"}>
-                <a className={path === '/' ? "underline" : ""} href={"/"}>Tool</a>
-                <a className={path.includes('/example') ? "underline" : ""} href={"/example"}>Example</a>
+                <Link to={"/"}>Tool</Link>
+                <Link to={"/example"}>Example</Link>
             </div>
         </div>
     )
