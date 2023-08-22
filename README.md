@@ -14,7 +14,7 @@ Comments always abide by this format:
 Any content beneath a comment until the next one will be associated with it.
 
 Content beneath comments are usually direct match conditions, so for the condition to be satisfied
-their must be a identical match in the target robots.txt file.
+there must be a identical match in the target robots.txt file.
 
 Regex patterns **are supported** and must be enclosed by backticks. Each regex condition must have its own comment.
 
