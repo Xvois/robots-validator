@@ -111,13 +111,16 @@ function Results(props: {
                     <Summary {...{infos, warnings, errors}} />
                 </>
                 :
-                window.location.search &&
-                <div className={"animate-pulse"}>
-                    <div className={"flex-grow h-[445px] bg-slate-100 border-2 rounded border-slate-50"}/>
-                    <div className={"my-5"}>
-                        <div className={"flex-grow h-[171px] bg-slate-100"}/>
+                window.location.search ?
+                    <div className={"animate-pulse"}>
+                        <div className={"flex-grow h-[445px] bg-slate-100 border-2 rounded border-slate-50"}/>
+                        <div className={"my-5"}>
+                            <div className={"flex-grow h-[171px] bg-slate-100"}/>
+                        </div>
                     </div>
-                </div>
+                    :
+                    <div className={"h-[546px]"}>
+                    </div>
             }
         </div>
     )
