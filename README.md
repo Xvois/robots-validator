@@ -32,6 +32,6 @@ WARNING and ERROR types should **only** be put in the bad practice file.
 
 To add a platform first add a folder to the `public` folder and add the appropriate txt files.
 
-Next head to `src/TS/Components/Home.tsx` and modify the `platforms` constant to include the platform name
+Next head to `src/Pages/Home.tsx` and modify the `platforms` constant to include the platform name
 you just added. This is **case sensitive** so ensure it is typed correctly.
 
