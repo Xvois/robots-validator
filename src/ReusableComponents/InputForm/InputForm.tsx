@@ -192,7 +192,7 @@ export function InputForm(
                         )}
                     />
                     <div className={"flex items-center h-[100px]"}>
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit" aria-label="Submit">Submit</Button>
                     </div>
                 </form>
             </Form>
