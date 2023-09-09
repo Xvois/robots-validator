@@ -37,7 +37,7 @@ function FormattedLine(props: {
     return (
         <li key={lineIndex} id={`${lineIndex}`}
             className={'flex items-center'}>
-            <code className={"w-6 mr-2"}>{lineIndex}</code>
+            <code className={"w-6 mr-2"}>{lineIndex + 1}</code>
             {comment !== undefined ?
                 <>
                     <code>
