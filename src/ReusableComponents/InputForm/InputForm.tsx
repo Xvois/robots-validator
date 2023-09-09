@@ -173,7 +173,7 @@ export function InputForm(
                                 <FormControl>
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger aria-label="Select a target platform">
                                                 <SelectValue placeholder="Select a target platform"/>
                                             </SelectTrigger>
                                         </FormControl>
