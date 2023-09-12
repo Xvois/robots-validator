@@ -6,11 +6,11 @@ import {Link} from "react-router-dom";
 function TopBar() {
 
     return (
-        <div className={"inline-flex p-5 justify-between items-center w-full"}>
+        <header className={"inline-flex p-5 justify-between items-center w-full"}>
             <Link to={"/"} className={"inline-flex gap-2 items-center"}>
                 <img src={logo} width="256" height="64" className={"h-16"} alt={'Validator logo'}/>
             </Link>
-        </div>
+        </header>
     )
 }
 
